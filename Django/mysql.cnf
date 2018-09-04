@@ -1,0 +1,5 @@
+[client]
+database = 'kakao'
+host = 'localhost'
+user = 'root'
+password = '1111'
