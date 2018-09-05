@@ -64,7 +64,7 @@ def message(request):
 
 
 	result = allData.objects.get(pk=11)
-	print(result)
+	print("pppp : " + result)
 	result = allData.objects.get(pk=11111)
 	print("dialgoflow : " + str(result.dialogflow_action))
 	#txt += "\n\n\npre -> \n"+pData
