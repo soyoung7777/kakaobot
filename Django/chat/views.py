@@ -21,7 +21,6 @@ from . import ExpressInfo
 #DB(models.py에서 정의)
 from chat.models import allData
 
-
 try:
     import apiai
 except ImportError:
@@ -65,10 +64,11 @@ def message(request):
 	result = allData.objects.get(pk=11111)
 	print("dialgoflow : " + str(result.dialogflow_action))
 
-	result = allData.objects.filter(session_id=111)
-	print("teestset: "+ result.session_id)
+	
+	num = allData.objects.filter(session_id=111).count()
 	#txt += "\n\n\npre -> \n"+pData
 
+	print(num)
 
 	return JsonResponse({
 		'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
