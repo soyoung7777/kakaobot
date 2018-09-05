@@ -54,15 +54,23 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
-	message = ((request.body).decode('utf-8'))
-	msg = json.loads(message)
-	user_id = msg['user_key']
+	# message = ((request.body).decode('utf-8'))
+	# msg = json.loads(message)
+	# user_id = msg['user_key']
+    # msg_str = msg['content']
+
+
+    message = ((request.body).decode('utf-8'))
+    msg = json.loads(message)
+    user_id = msg['user_key']
     msg_str = msg['content']
 
-	jsontmp = "22222"
-	dialogflow = 2
+    num = testData.objects.filter(session_id=user_id).count()
 
-	num = testData.objects.filter(session_id=user_id).count()
+	# jsontmp = "22222"
+	# dialogflow = 2
+
+	# num = testData.objects.filter(session_id=user_id).count()
     txt = ""
 
 	if num == 0 : #처음
