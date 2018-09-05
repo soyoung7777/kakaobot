@@ -53,18 +53,16 @@ def message(request):
 
 	msg = json.loads(message)
 
-	cont_str = msg['content']
-	user_str = msg['user_key']
-
-	txt = cont_str + "\n###\n" + user_str
-	test = "testest"
+	session_id = "11111"
+	json = "22222"
+	dialogflow = "2"
 
 	#write
-	#allData(user=user_str, data=cont_str).save()
+	allData(session_id=session_id, jsondata=json, dialogflow_action=dialogflow).save()
 
 	#read
-	#result = allData.objects.filter(user=user_str)[0]
-	#pData = result.data
+	result = allData.objects.filter(user=user_str)[0]
+	print(result)
 
 	#txt += "\n\n\npre -> \n"+pData
 
