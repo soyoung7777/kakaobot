@@ -2,7 +2,7 @@ from django.db import models
 from jsonfield import JSONField
 
 class allData(models.Model):
-	session_id = models.CharField(max_length=128, primary_key=True)
+	session_id = models.IntegerField(default=0,primary_key=True)
 	jsondata = models.TextField()
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
