@@ -11,7 +11,7 @@ import urllib.parse
 import re
 import time
 from operator import eq
-from random import randint
+from random import *
 
 from . import pathPrint
 from . import anotherPathPrint
