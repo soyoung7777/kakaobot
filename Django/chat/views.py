@@ -73,16 +73,18 @@ def message(request):
 	# num = testData.objects.filter(session_id=user_id).count()
     txt = ""
 
-	if num == 0 : #처음
-		testData(session_id=user_id).save()
-	else : #DB에 저장이 되어있을 때
-		res = testData.objects.get(session_id=user_id)[0]
-        if res.session_end == 0: #세션 처음(대화 처음 시작)
-            data = dialgoflow(msg_str, user_id)
-            testData(session_id=user_id, session_end=1, msg=msg_str, jsondata=data).save()
-            txt = str(data['result']['metadata']['intentName'])
-        else :
-            txt += "session_end 가 1\n"
+    if num == 0: # 처음
+        testData(session_id=user_id).save()
+    #else:
+
+    res = testData.objects.get(session_id=user_id)[0]
+
+    if res.session_end == 0:
+        data = dialgoflow(msg_str, user_id)
+        testData(session_id=user_id, session_end=1, msg=msg_str, jsondata=data).save()
+        txt += str(data['result']['metadata']['intentName'])
+    else :
+        txt += "session_end가 1\n"
 
 
 
