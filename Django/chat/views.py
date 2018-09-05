@@ -98,13 +98,13 @@ def message(request):
         'keyboard':{'type':'text'}
     })
 
-def incomFalse(user_id):
-    res = testData.objects.get(session_id=user_id)
-
-    # intent_name = res.jsondata[]
-
-
-def incomTure():
+# def incomFalse(user_id):
+#     res = testData.objects.get(session_id=user_id)
+#
+#     # intent_name = res.jsondata[]
+#
+#
+# def incomTure():
 
 
 
