@@ -56,14 +56,13 @@ def keyboard(request):
 def message(request):
 	message = ((request.body).decode('utf-8'))
 	msg = json.loads(message)
-    msg_str = msg['content']
 	user_id = msg['user_key']
+    msg_str = msg['content']
 
 	jsontmp = "22222"
 	dialogflow = 2
 
 	num = testData.objects.filter(session_id=user_id).count()
-
     txt = ""
 
 	if num == 0 : #처음
