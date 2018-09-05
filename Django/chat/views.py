@@ -79,10 +79,10 @@ def message(request):
 
         if eq(incom, "True"):
             txt += "\n대화 세션 유지, session_end를 1로\n"
-            testData(session_id=user_id, session_end=1).save()
+            testData(session_id=user_id, session_end=1, jsondata=data).save()
         else :
             txt += "\n대화 종료, 결과 전송, session_end를 0으로\n"
-            testData(session_id=user_id, session_end=0).save()
+            testData(session_id=user_id, session_end=0, jsondata=data).save()
     else :
         txt += "이전 대화 유지\n"
 
