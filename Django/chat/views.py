@@ -52,11 +52,6 @@ def message(request):
 	message = ((request.body).decode('utf-8'))
 	msg = json.loads(message)
 	user_id = msg['user_key']
-
-	if init :
-		session_id = randrange(100,500)
-		init = False
-
 	
 	jsontmp = "22222"
 	dialogflow = 2
