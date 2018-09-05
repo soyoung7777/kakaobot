@@ -21,7 +21,6 @@ from . import ExpressInfo
 
 #DB(models.py에서 정의)
 from chat.models import allData
-from chat.models import testData
 
 try:
     import apiai
@@ -59,17 +58,17 @@ def message(request):
     user_id = msg['user_key']
     msg_str = msg['content']
 
-    num = testData.objects.filter(session_id=user_id).count()
+    num = alltData.objects.filter(session_id=user_id).count()
 
 	# jsontmp = "22222"
 	# dialogflow = 2
     txt = ""
 
     if num == 0: # 처음
-        testData(session_id=user_id).save()
+        alltData(session_id=user_id).save()
     #else:
 
-    res = testData.objects.get(session_id=user_id)
+    res = alltData.objects.get(session_id=user_id)
 
     if res.session_end == 0: #대화 처음 시작
         data = dialogflow(msg_str, user_id)
@@ -78,9 +77,9 @@ def message(request):
 
         if eq(incom, "True"): #대화 세션 유지, session_end를 1로
             txt += str(data['result']['fulfillment']['speech'])
-            testData(session_id=user_id, session_end=1, jsondata=data).save()
+            alltData(session_id=user_id, session_end=1, jsondata=data).save()
         else : #대화 종료, 필수조건 충족, 사용자에게 결과 전송, session_end를 0으로
-            testData(session_id=user_id, session_end=0, jsondata=data).save()
+            alltData(session_id=user_id, session_end=0, jsondata=data).save()
             txt += incomFalse(user_id)
     else : #이전 대화 유지
         data = dialogflow(msg_str, user_id)
@@ -88,9 +87,9 @@ def message(request):
 
         if eq(incom, "True"): #대화 세션 유지, session_end를 1로
             txt += str(data['result']['fulfillment']['speech'])
-            testData(session_id=user_id, session_end=1, jsondata=data).save()
+            alltData(session_id=user_id, session_end=1, jsondata=data).save()
         else : #대화 종료, 필수조건 충족, 사용자에게 결과 전송, session_end를 0으로
-            testData(session_id=user_id, session_end=0, jsondata=data).save()
+            alltData(session_id=user_id, session_end=0, jsondata=data).save()
             txt += incomFalse(user_id)
 
 
@@ -100,7 +99,7 @@ def message(request):
     })
 
 def incomFalse(user_id):
-    res = testData.objects.get(session_id=user_id)
+    res = alltData.objects.get(session_id=user_id)
 
     intent_name = res.jsondata['result']['metadata']['intentName']
     text = ""
