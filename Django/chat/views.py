@@ -62,11 +62,11 @@ def message(request):
 
 	#read
 
-
-	result = allData.objects.get(pk=11)
-	print("pppp : " + result)
 	result = allData.objects.get(pk=11111)
 	print("dialgoflow : " + str(result.dialogflow_action))
+
+	result = allData.objects.filter(session_id=111)[0]
+	print("teestset: "+ result.session_id)
 	#txt += "\n\n\npre -> \n"+pData
 
 
