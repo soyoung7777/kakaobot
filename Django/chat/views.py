@@ -47,10 +47,15 @@ def keyboard(request):
 		'type' : 'text'
 	})
 
-session_id = randrange(9999,100000)
+init = True
+
 @csrf_exempt
 def message(request):
 	message = ((request.body).decode('utf-8'))
+
+	if init :
+		session_id = randrange(9999,100000)
+		init = False
 
 	msg = json.loads(message)
 	jsontmp = "22222"
