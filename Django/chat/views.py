@@ -21,6 +21,7 @@ from . import ExpressInfo
 
 #DB(models.py에서 정의)
 from chat.models import allData
+from chat.models import testData
 
 try:
     import apiai
@@ -30,7 +31,11 @@ except ImportError:
     )
     import apiai
 
-def dialogflow(msg_str):
+#CLIENT_ACCESS_TOKEN = 'f087d3e9915f48e9935bba49078b7d83'
+CLIENT_ACCESS_TOKEN = '33615c11c39546908fd8ab5b32dfac16'
+
+
+def dialogflow(msg_str, session_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     dialogflow_request = ai.text_request()
 
@@ -51,19 +56,30 @@ def keyboard(request):
 def message(request):
 	message = ((request.body).decode('utf-8'))
 	msg = json.loads(message)
+    msg_str = msg['content']
 	user_id = msg['user_key']
-	
+
 	jsontmp = "22222"
 	dialogflow = 2
 
-	num = allData.objects.filter(session_id=user_id).count()
+	num = testData.objects.filter(session_id=user_id).count()
 
-	if num == 0 :
-		allData(session_id=user_id).save()
-	else :
-		res = allData.objects.get(pk=user_id)
+    txt = ""
 
-	print(res.session_id)
+	if num == 0 : #처음
+		testData(session_id=user_id).save()
+	else : #DB에 저장이 되어있을 때
+		res = testData.objects.get(session_id=user_id)[0]
+        if res.session_end == 0: #세션 처음(대화 처음 시작)
+            data = dialgoflow(msg_str, user_id)
+            testData(session_id=user_id, session_end=1, msg=msg_str, jsondata=data).save()
+            txt = str(data['result']['metadata']['intentName'])
+        else :
+            txt += "session_end 가 1\n"
+
+
+
+	# print(res.session_id)
 
 	#write
 	#allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
@@ -73,13 +89,13 @@ def message(request):
 	#result = allData.objects.get(pk=11111)
 	#print("dialgoflow : " + str(result.dialogflow_action))
 
-	
+
 	#num = allData.objects.filter(session_id=11111).count()
 	#txt += "\n\n\npre -> \n"+pData
 
 	#print(num)
 
 	return JsonResponse({
-		'message':{'text':"!!!\n\n"+user_id+"\n\n!!!"},
+		'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
 		'keyboard':{'type':'text'}
 		})
