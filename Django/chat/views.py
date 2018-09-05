@@ -59,13 +59,13 @@ def message(request):
 	txt = cont_str + "\n###\n" + user_str
 
 	#write
-	allData(user=user_str, data=cont_str).save()
+	#allData(user=user_str, data=cont_str).save()
 
 	#read
-	result = allData.objects.filter(user=user_str)[0]
-	pData = result.data
+	#result = allData.objects.filter(user=user_str)[0]
+	#pData = result.data
 
-	txt += "\n\n\npre -> \n"+pData
+	#txt += "\n\n\npre -> \n"+pData
 
 
 	return JsonResponse({
