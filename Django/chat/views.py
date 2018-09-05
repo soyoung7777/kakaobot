@@ -60,7 +60,7 @@ def message(request):
 
 	if num == 0 :
 		allData(session_id=user_id).save()
-	else
+	else :
 		res = allData.objects.get(pk=user_id)
 
 	print(res.session_id)
