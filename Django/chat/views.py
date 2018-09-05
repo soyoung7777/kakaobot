@@ -57,6 +57,7 @@ def message(request):
 	user_str = msg['user_key']
 
 	txt = cont_str + "\n###\n" + user_str
+	test = "testest"
 
 	#write
 	#allData(user=user_str, data=cont_str).save()
