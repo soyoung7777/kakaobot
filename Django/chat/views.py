@@ -56,7 +56,7 @@ def message(request):
 
 	for i in range(0,5) :
 		session_id = randrange(9999,100000)
-		print("id : " + session_id)
+		print("id : " + str(session_id))
 
 	msg = json.loads(message)
 	jsontmp = "22222"
