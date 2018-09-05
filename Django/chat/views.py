@@ -73,10 +73,18 @@ def message(request):
 
     if res.session_end == 0:
         data = dialogflow(msg_str, user_id)
-        testData(session_id=user_id, session_end=1, msg=msg_str, jsondata=data).save()
+        testData(session_id=user_id, jsondata=data).save()
         txt += str(data['result']['metadata']['intentName'])
+        incom = str(data['result']['actionIncomplete'])
+
+        if eq(incom, "True"):
+            txt += "\n대화 세션 유지, session_end를 1로\n"
+            testData(session_id=user_id, session_end=1).save()
+        else :
+            txt += "\n대화 종료, 결과 전송, session_end를 0으로\n"
+            testData(session_id=user_id, session_end=0).save()
     else :
-        txt += "session_end가 1\n"
+        txt += "이전 대화 유지\n"
 
     return JsonResponse({
         'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
