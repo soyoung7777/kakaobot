@@ -54,12 +54,6 @@ def keyboard(request):
 
 @csrf_exempt
 def message(request):
-	# message = ((request.body).decode('utf-8'))
-	# msg = json.loads(message)
-	# user_id = msg['user_key']
-    # msg_str = msg['content']
-
-
     message = ((request.body).decode('utf-8'))
     msg = json.loads(message)
     user_id = msg['user_key']
@@ -69,8 +63,6 @@ def message(request):
 
 	# jsontmp = "22222"
 	# dialogflow = 2
-
-	# num = testData.objects.filter(session_id=user_id).count()
     txt = ""
 
     if num == 0: # 처음
@@ -80,7 +72,7 @@ def message(request):
     res = testData.objects.get(session_id=user_id)
 
     if res.session_end == 0:
-        data = dialgoflow(msg_str, user_id)
+        data = dialogflow(msg_str, user_id)
         testData(session_id=user_id, session_end=1, msg=msg_str, jsondata=data).save()
         txt += str(data['result']['metadata']['intentName'])
     else :
