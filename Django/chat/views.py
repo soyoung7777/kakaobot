@@ -86,6 +86,11 @@ def message(request):
     else :
         txt += "session_end가 1\n"
 
+    return JsonResponse({
+        'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
+        'keyboard':{'type':'text'}
+    })
+
 
 
 	# print(res.session_id)
@@ -103,8 +108,3 @@ def message(request):
 	#txt += "\n\n\npre -> \n"+pData
 
 	#print(num)
-
-	return JsonResponse({
-		'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
-		'keyboard':{'type':'text'}
-		})
