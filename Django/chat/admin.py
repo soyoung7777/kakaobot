@@ -1,6 +1,6 @@
 from django.contrib import admin
-from chat.models import preData
+from chat.models import allData
 
-admin.site.register(preData)
+admin.site.register(allData)
 
 # Register your models here.
