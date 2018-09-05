@@ -7,8 +7,8 @@ class allData(models.Model):
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
 	bus_station_result = models.IntegerField(default=0)
-    bus_selected = models.CharField(max_length=128)
-    bus_arsid = models.IntegerField(default=0)
+	bus_selected = models.CharField(max_length=128)
+	bus_arsid = models.IntegerField(default=0)
 
 
 	def __str__(self):
