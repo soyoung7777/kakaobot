@@ -61,8 +61,8 @@ def message(request):
 	allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
 
 	#read
-	result = allData.objects.filter(session_id=session_id)[0]
-	print(result)
+	result = allData.objects.filter(session_id=session_id)
+	print("dialgoflow : " + str(result.dialogflow_action))
 	print("tttt")
 	#txt += "\n\n\npre -> \n"+pData
 
