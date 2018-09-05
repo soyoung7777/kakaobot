@@ -56,6 +56,15 @@ def message(request):
 	jsontmp = "22222"
 	dialogflow = 2
 
+	num = allData.objects.filter(session_id=user_id).count()
+
+	if num == 0 :
+		allData(session_id=user_id).save()
+	else
+		res = allData.objects.get(pk=user_id)
+
+	print(res.session_id)
+
 	#write
 	#allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
 
