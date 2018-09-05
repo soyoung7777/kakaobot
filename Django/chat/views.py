@@ -54,7 +54,7 @@ def message(request):
 	message = ((request.body).decode('utf-8'))
 
 
-	for i in rnage(0,5) :
+	for i in range(0,5) :
 		session_id = randrange(9999,100000)
 		print("id : " + session_id)
 
