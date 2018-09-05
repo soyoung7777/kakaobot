@@ -77,7 +77,7 @@ def message(request):
         testData(session_id=user_id).save()
     #else:
 
-    res = testData.objects.get(session_id=user_id)[0]
+    res = testData.objects.get(session_id=user_id)
 
     if res.session_end == 0:
         data = dialgoflow(msg_str, user_id)
