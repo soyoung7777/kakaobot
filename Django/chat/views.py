@@ -54,11 +54,11 @@ def message(request):
 	msg = json.loads(message)
 
 	session_id = "11111"
-	json = "22222"
+	jsontmp = "22222"
 	dialogflow = "2"
 
 	#write
-	allData(session_id=session_id, jsondata=json, dialogflow_action=dialogflow).save()
+	allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
 
 	#read
 	result = allData.objects.filter(user=user_str)[0]
