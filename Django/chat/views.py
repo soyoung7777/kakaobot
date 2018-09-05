@@ -19,7 +19,7 @@ from . import BusInfo
 from . import ExpressInfo
 
 #DB(models.py에서 정의)
-from chat.models import preData
+from chat.models import allData
 
 
 try:
@@ -59,10 +59,10 @@ def message(request):
 	txt = cont_str + "\n###\n" + user_str
 
 	#write
-	preData(user=user_str, data=cont_str).save()
+	allData(user=user_str, data=cont_str).save()
 
 	#read
-	result = preData.objects.filter(user=user_str)[0]
+	result = allData.objects.filter(user=user_str)[0]
 	pData = result.data
 
 	txt += "\n\n\npre -> \n"+pData
