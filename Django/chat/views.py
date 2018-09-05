@@ -53,27 +53,28 @@ init = True
 def message(request):
 	message = ((request.body).decode('utf-8'))
 
-	if init :
+
+	for i in rnage(0,5) :
 		session_id = randrange(9999,100000)
-		init = False
+		print("id : " + session_id)
 
 	msg = json.loads(message)
 	jsontmp = "22222"
 	dialogflow = 2
 
 	#write
-	allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
+	#allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
 
 	#read
 
-	result = allData.objects.get(pk=11111)
-	print("dialgoflow : " + str(result.dialogflow_action))
+	#result = allData.objects.get(pk=11111)
+	#print("dialgoflow : " + str(result.dialogflow_action))
 
 	
-	num = allData.objects.filter(session_id=11111).count()
+	#num = allData.objects.filter(session_id=11111).count()
 	#txt += "\n\n\npre -> \n"+pData
 
-	print(num)
+	#print(num)
 
 	return JsonResponse({
 		'message':{'text':"!!!\n\n"+str(session_id)+"\n\n!!!"},
