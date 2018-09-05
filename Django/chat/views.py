@@ -11,6 +11,7 @@ import urllib.parse
 import re
 import time
 from operator import eq
+from random import randint
 
 from . import pathPrint
 from . import anotherPathPrint
@@ -46,13 +47,12 @@ def keyboard(request):
 		'type' : 'text'
 	})
 
+session_id = randrange(9999,100000)
 @csrf_exempt
 def message(request):
 	message = ((request.body).decode('utf-8'))
 
 	msg = json.loads(message)
-
-	session_id = 11111
 	jsontmp = "22222"
 	dialogflow = 2
 
@@ -71,6 +71,6 @@ def message(request):
 	print(num)
 
 	return JsonResponse({
-		'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
+		'message':{'text':"!!!\n\n"+str(session_id)+"\n\n!!!"},
 		'keyboard':{'type':'text'}
 		})
