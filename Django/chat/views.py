@@ -85,6 +85,8 @@ def message(request):
             testData(session_id=user_id, session_end=0, jsondata=data).save()
     else :
         txt += "이전 대화 유지\n"
+        data = dialogflow(msg_str, user_id)
+        testData(session_id=user_id, session_end=123, jsondata=data).save()
 
     return JsonResponse({
         'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
