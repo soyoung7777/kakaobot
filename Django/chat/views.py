@@ -53,11 +53,11 @@ init = True
 def message(request):
 	message = ((request.body).decode('utf-8'))
 
-
-	for i in range(0,5) :
-		session_id = randrange(9999,100000)
-		print("id : " + str(session_id))
-
+	print(str(init))
+	
+	if init :
+		init = False
+		
 	msg = json.loads(message)
 	jsontmp = "22222"
 	dialogflow = 2
