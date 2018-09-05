@@ -12,7 +12,6 @@ class testData(models.Model):
 
 class allData(models.Model):
 	session_id = models.CharField(max_length=128,primary_key=True)
-	msg = models.TextField()
 	jsondata = models.TextField()
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
