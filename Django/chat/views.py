@@ -65,7 +65,7 @@ def message(request):
 	print("dialgoflow : " + str(result.dialogflow_action))
 
 	
-	num = allData.objects.filter(session_id=111).count()
+	num = allData.objects.filter(session_id=11111).count()
 	#txt += "\n\n\npre -> \n"+pData
 
 	print(num)
