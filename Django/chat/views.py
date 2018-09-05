@@ -47,18 +47,17 @@ def keyboard(request):
 		'type' : 'text'
 	})
 
-init = True
-
 @csrf_exempt
 def message(request):
 	message = ((request.body).decode('utf-8'))
-
-	print(str(init))
-	
-	if init :
-		init = False
-		
 	msg = json.loads(message)
+	user_id = msg['user_key']
+
+	if init :
+		session_id = randrange(100,500)
+		init = False
+
+	
 	jsontmp = "22222"
 	dialogflow = 2
 
@@ -77,6 +76,6 @@ def message(request):
 	#print(num)
 
 	return JsonResponse({
-		'message':{'text':"!!!\n\n"+str(session_id)+"\n\n!!!"},
+		'message':{'text':"!!!\n\n"+user_id+"\n\n!!!"},
 		'keyboard':{'type':'text'}
 		})
