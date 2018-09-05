@@ -71,27 +71,41 @@ def message(request):
 
     res = testData.objects.get(session_id=user_id)
 
-    if res.session_end == 0:
+    if res.session_end == 0: #대화 처음 시작
         data = dialogflow(msg_str, user_id)
         testData(session_id=user_id, jsondata=data).save()
         txt += str(data['result']['metadata']['intentName'])
         incom = str(data['result']['actionIncomplete'])
 
-        if eq(incom, "True"):
+        if eq(incom, "True"): #대화 세션 유지, session_end를 1로
             txt += "\n대화 세션 유지, session_end를 1로\n"
             testData(session_id=user_id, session_end=1, jsondata=data).save()
-        else :
+        else : #대화 종료, 결과 전송, session_end를 0으로
             txt += "\n대화 종료, 결과 전송, session_end를 0으로\n"
             testData(session_id=user_id, session_end=0, jsondata=data).save()
-    else :
+            #incomFalse(user_id)
+    else : #이전 대화를 이어나감
         txt += "이전 대화 유지\n"
         data = dialogflow(msg_str, user_id)
         testData(session_id=user_id, session_end=123, jsondata=data).save()
+
+
+    result = testData.objects.get(session_id=user_id)
+    txt += result.jsondata['result']['metadata']['intentName']
 
     return JsonResponse({
         'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
         'keyboard':{'type':'text'}
     })
+
+def incomFalse(user_id):
+    res = testData.objects.get(session_id=user_id)
+
+    # intent_name = res.jsondata[]
+
+
+def incomTure():
+
 
 
 
