@@ -6,7 +6,6 @@ class preData(models.Model):
 	data = models.CharField(max_length=256)
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
-	bus_station_list = models.
 
 
 	def __str__(self):
