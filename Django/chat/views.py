@@ -96,7 +96,7 @@ def message(request):
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
-        if eq(data['result']['metadata']['intentName'],"Bus_station" or "Bus_station_and_number"):
+        if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
                 tmp_list = DB.bus_station_result
                 tmp_list = tmp_list.replace('[',"")
@@ -109,7 +109,20 @@ def message(request):
                 DB.dialogflow_action = 0
                 DB.save()
 
-    if eq(str(data['result']['metadata']['intentName']),"Bus_station" or "Bus_station_and_number"):
+        if eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
+            if DB.bus_action == 1 :
+                tmp_list = DB.bus_station_result
+                tmp_list = tmp_list.replace('[',"")
+                tmp_list = tmp_list.replace(']',"")
+                tmp_list = tmp_list.replace(' ',"")
+                bus_station_result = tmp_list.split(',')
+                DB.bus_selected = bus_station_result[int(msg_str)-1]
+                print(DB.bus_selected)
+                DB.bus_action = 2
+                DB.dialogflow_action = 0
+                DB.save()            
+
+    if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
             print("action 0")
             bus_return = BusInfo.get_bus_station(data)
@@ -133,28 +146,48 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
 
-    if eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
-        print("OKOKOKOKOK")
+    if eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number"):
+        if DB.bus_action == 0 :
+            print("action 0")
+            bus_return = BusInfo.get_bus_station(data)
+
+            if bus_return[0] == 1 :
+                DB.bus_selected = str(bus_return[2][0])
+                DB.bus_arsid = str(bus_return[3])
+                DB.bus_action = 2
+                DB.save()
+
+            elif bus_return[0] == 2 :
+                print("action1")
+                DB.bus_action = 1
+                text = bus_return[1]
+                DB.bus_arsid = bus_return[3]
+                DB.bus_station_result = bus_return[2]
+                DB.dialogflow_action = 1
+                DB.save()
+                
+                return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                })
             
+    if DB.bus_action == 2 :
+        print("action2")
+        if eq(str(data['result']['metadata']['intentName']),"Bus_station") : 
+            res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
+        elif eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
+            res = BusInfo.get_bus_station_and_number_information([DB.bus_selected,DB.bus_arsid,data['result']['parameters']['bus_number']])
 
-        if DB.bus_action == 2 :
-            print("action2")
-            if eq(str(data['result']['metadata']['intentName']),"Bus_station") : 
-                res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
-            elif eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
-                res = BusInfo.get_bus_station_and_number_information([DB.bus_selected,DB.bus_arsid,data['result']['parameters']['bus_number']])
+        DB.dialogflow_action = 0
+        DB.bus_action = 0
+        DB.bus_arsid = ""
+        DB.bus_selected = ""
+        DB.bus_station_result = ""
+        DB.jsondata = ""
+        DB.save()
 
-            DB.dialogflow_action = 0
-            DB.bus_action = 0
-            DB.bus_arsid = ""
-            DB.bus_selected = ""
-            DB.bus_station_result = ""
-            DB.jsondata = ""
-            DB.save()
-
-            return JsonResponse({
-            'message': {'text': res},
-            })
+        return JsonResponse({
+        'message': {'text': res},
+        })
 
 
     return JsonResponse({
