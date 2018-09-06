@@ -73,19 +73,18 @@ def message(request):
     print("DB check : " + str(DB.session_id))
 
     if DB.dialogflow_action == 0 :
-        print("dialogflow")
-        data = dialogflow(msg_str)
-        print(data)
+        dialog_data = dialogflow(msg_str)
+        print(dialog_data)
         
-        if str(data['result']['actionIncomplete']) == True :
+        if str(dialog_data['result']['actionIncomplete']) == True :
             print("True")
-            DB.jsondata = str(data)
+            DB.jsondata = dialog_data
             DB.save()
-            text = str(data['result']['fulfillment']['speech'])
+            text = str(dialog_data['result']['fulfillment']['speech'])
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-        elif str(data['result']['actionIncomplete']) == False :
+        elif str(dialog_data['result']['actionIncomplete']) == False :
             print("False")
             DB.dialogflow_action = 1
             DB.save()
