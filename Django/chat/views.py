@@ -89,6 +89,7 @@ def message(request):
 
         DB.jsondata = dialog_data
         DB.dialogflow_action = 0
+        DB.bus_action = 0
         DB.save()
 
 
@@ -98,8 +99,11 @@ def message(request):
         print("dialogflow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
-                print("station : " + DB.bus_station_result)
-                DB.bus_selected = DB.bus_station_result[int(msg_str)-1]
+                tmp_list = DB.bus_station_result
+                tmp_list = tmp_list.replace('[',"")
+                tmp_list = tmp_list.replace(']',"")
+                bus_station_result = tmp_list.split(',')
+                DB.bus_selected = bus_station_result[int(msg_str)-1]
                 print(bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
@@ -129,7 +133,7 @@ def message(request):
                 })
 
         if DB.bus_action == 2 :
-            res = BusInfo.get_bus_station_information([bus_selected,bus_arsid])
+            res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
             return JsonResponse({
             'message': {'text': res},
             })
