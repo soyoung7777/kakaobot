@@ -102,7 +102,7 @@ def message(request):
                 tmp_list = tmp_list.replace(']',"")
                 bus_station_result = tmp_list.split(',')
                 DB.bus_selected = bus_station_result[int(msg_str)-1]
-                print(bus_selected)
+                print(DB.bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
                 DB.save()
