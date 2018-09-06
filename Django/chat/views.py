@@ -31,7 +31,9 @@ except ImportError:
     import apiai
 
 #CLIENT_ACCESS_TOKEN = 'f087d3e9915f48e9935bba49078b7d83'
-CLIENT_ACCESS_TOKEN = '33615c11c39546908fd8ab5b32dfac16'
+#CLIENT_ACCESS_TOKEN = '33615c11c39546908fd8ab5b32dfac16'
+CLIENT_ACCESS_TOKEN = '72906773549e43b2b2fe92dcdd24abe7'
+
 
 
 def dialogflow(msg_str, session_id):
@@ -60,37 +62,30 @@ def message(request):
 
     num = alltData.objects.filter(session_id=user_id).count()
 
-	# jsontmp = "22222"
-	# dialogflow = 2
     txt = ""
 
     if num == 0: # 처음
         alltData(session_id=user_id).save()
     #else:
 
-    res = alltData.objects.get(session_id=user_id)
+    DB = alltData.objects.get(session_id=user_id)
 
-    if res.session_end == 0: #대화 처음 시작
-        data = dialogflow(msg_str, user_id)
-        txt += str(data['result']['metadata']['intentName'])
-        incom = str(data['result']['actionIncomplete'])
+    if DB.dialogflow_action == 0 :
+        print("dialogflow")
+        data = dialogflow(msg_str)
+        
+        if str(data['result']['actionIncomplete']) == True :
+            DB.jsondata = data
+            DB.save()
+            text = str(data['result']['fulfillment']['speech'])
+            return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            })
+        else if str(data['result']['actionIncomplete']) == False :
+            DB.dialogflow_action = 1
+            DB.save()
 
-        if eq(incom, "True"): #대화 세션 유지, session_end를 1로
-            txt += str(data['result']['fulfillment']['speech'])
-            alltData(session_id=user_id, session_end=1, jsondata=data).save()
-        else : #대화 종료, 필수조건 충족, 사용자에게 결과 전송, session_end를 0으로
-            alltData(session_id=user_id, session_end=0, jsondata=data).save()
-            txt += incomFalse(user_id)
-    else : #이전 대화 유지
-        data = dialogflow(msg_str, user_id)
-        incom = str(data['result']['actionIncomplete'])
 
-        if eq(incom, "True"): #대화 세션 유지, session_end를 1로
-            txt += str(data['result']['fulfillment']['speech'])
-            alltData(session_id=user_id, session_end=1, jsondata=data).save()
-        else : #대화 종료, 필수조건 충족, 사용자에게 결과 전송, session_end를 0으로
-            alltData(session_id=user_id, session_end=0, jsondata=data).save()
-            txt += incomFalse(user_id)
 
 
     return JsonResponse({
