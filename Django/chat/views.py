@@ -107,7 +107,7 @@ def message(request):
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
-            DB.bus_return = BusInfo.get_bus_station(data)
+            bus_return = BusInfo.get_bus_station(data)
 
             if bus_return[0] == 1 :
                 DB.bus_selected = bus_return[2][0]
