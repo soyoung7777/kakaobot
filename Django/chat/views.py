@@ -75,10 +75,10 @@ def message(request):
     if DB.dialogflow_action == 0 :
         print("dialogflow")
         data = dialogflow(msg_str)
-        print(str(data))
+        print(data)
         
         if str(data['result']['actionIncomplete']) == True :
-            print("False")
+            print("True")
             DB.jsondata = str(data)
             DB.save()
             text = str(data['result']['fulfillment']['speech'])
@@ -86,7 +86,7 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
         elif str(data['result']['actionIncomplete']) == False :
-            print("True")
+            print("False")
             DB.dialogflow_action = 1
             DB.save()
 
