@@ -92,6 +92,7 @@ def message(request):
 
 
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
+    print(data)
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
