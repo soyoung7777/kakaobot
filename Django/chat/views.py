@@ -96,7 +96,7 @@ def message(request):
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
-        if eq(data['result']['metadata']['intentName'],"Bus_station"):
+        if eq(data['result']['metadata']['intentName'],"Bus_station" or "Bus_station_and_number"):
             if DB.bus_action == 1 :
                 tmp_list = DB.bus_station_result
                 tmp_list = tmp_list.replace('[',"")
@@ -132,6 +132,9 @@ def message(request):
                 return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
+
+    if eq(str(data['result']['metadata']['intentName']),"us_station_and_number") :
+        print("OKOKOKOKOK")
             
 
         if DB.bus_action == 2 :
