@@ -75,6 +75,7 @@ def message(request):
     if DB.dialogflow_action == 0 :
         print("dialogflow")
         data = dialogflow(msg_str)
+        print(str(data))
         
         if str(data['result']['actionIncomplete']) == True :
             print("False")
