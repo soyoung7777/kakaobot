@@ -112,20 +112,19 @@ def message(request):
         if DB.bus_action == 0 :
             bus_return = BusInfo.get_bus_station(data)
 
-            #if bus_return[0] == 1 :
-            #    DB.bus_selected = str(bus_return[2][0])
-            #    DB.bus_arsid = str(bus_return[3])
-            #    DB.bus_action = 2
-            #    DB.save()
+            if bus_return[0] == 1 :
+                DB.bus_selected = str(bus_return[2][0])
+                DB.bus_arsid = str(bus_return[3])
+                DB.bus_action = 2
+                DB.save()
 
-            #bus_return[0] == 2 :
-
-            DB.bus_action = 1
-            text = bus_return[1]
-            DB.bus_arsid = bus_return[3]
-            DB.bus_station_result = bus_return[2]
-            DB.dialogflow_action = 1
-            DB.save()
+            bus_return[0] == 2 :
+                DB.bus_action = 1
+                text = bus_return[1]
+                DB.bus_arsid = bus_return[3]
+                DB.bus_station_result = bus_return[2]
+                DB.dialogflow_action = 1
+                DB.save()
 
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
