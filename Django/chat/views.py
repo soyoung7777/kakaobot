@@ -93,8 +93,8 @@ def message(request):
         DB.dialogflow_action = 0
         DB.save()
 
-    data = json.dumps(DB.jsondata)
-
+    tmpdata = json.dumps(DB.jsondata)
+    data = json.loads(tmpdata)
 
     if DB.dialogflow_action == 1 :
         if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
