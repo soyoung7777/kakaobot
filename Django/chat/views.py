@@ -104,6 +104,7 @@ def message(request):
                 print(bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
+                DB.save()
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
@@ -121,12 +122,13 @@ def message(request):
                 DB.bus_arsid = bus_return[3]
                 DB.bus_station_result = bus_return[2]
                 DB.dialogflow_action = 1
+                DB.save()
 
                 return JsonResponse({
                     'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
 
-        if bus_action == 2 :
+        if DB.bus_action == 2 :
             res = BusInfo.get_bus_station_information([bus_selected,bus_arsid])
             return JsonResponse({
             'message': {'text': res},
