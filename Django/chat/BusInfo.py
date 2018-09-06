@@ -155,7 +155,7 @@ def get_bus_station_and_number_information(busData) :
             busList[busNxt] = bus.find("nxtStn").text
             bcnt = bcnt+1
 
-            if eq(busNo,bus_number) :
+            print(busList[stationNm1]+ " " + busList[stationNm2])
 
 
 
@@ -278,4 +278,4 @@ def get_bus_station_and_number_information(busData) :
         # text+= "👉🏿 " + arrival_first + "\n"
         # text+= "👉🏿 " + arrival_second
 
-    return text
+    #return text
