@@ -138,6 +138,7 @@ def message(request):
             DB.bus_selected = ""
             DB.bus_station_result = ""
             DB.jsondata = ""
+            DB.save()
             return JsonResponse({
             'message': {'text': res},
             })
