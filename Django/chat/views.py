@@ -75,7 +75,6 @@ def message(request):
 
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
-        print(dialog_data)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
         
         if eq((dialog_data['result']['actionIncomplete']),"True") :
@@ -93,7 +92,8 @@ def message(request):
 
     tmpdata = json.dumps(DB.jsondata)
     data = json.loads(tmpdata)
-
+    print("json : " + data)
+    
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
         if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
