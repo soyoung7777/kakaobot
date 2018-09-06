@@ -41,7 +41,6 @@ def dialogflow(msg_str):
     dialogflow_request = ai.text_request()
 
     dialogflow_request.lang = 'ko'
-    dialogflow_request.session_id = session_id
     dialogflow_request.query = msg_str
     response = dialogflow_request.getresponse()
 
