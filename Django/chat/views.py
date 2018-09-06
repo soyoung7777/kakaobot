@@ -132,6 +132,12 @@ def message(request):
 
         if DB.bus_action == 2 :
             res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
+            DB.dialogflow_action = 0
+            DB.bus_action = 0
+            DB.bus_arsid = ""
+            DB.bus_selected = ""
+            DB.bus_station_result = ""
+            DB.jsondata = ""
             return JsonResponse({
             'message': {'text': res},
             })
