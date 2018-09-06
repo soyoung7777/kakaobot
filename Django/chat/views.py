@@ -71,11 +71,12 @@ def message(request):
 
     DB = allData.objects.get(pk=user_id)
     print("DB check : " + str(DB.session_id))
-    print("status : " + str(dialog_data['result']['actionIncomplete']))
+
 
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print(dialog_data)
+        print("status : " + str(dialog_data['result']['actionIncomplete']))
         
         if str(dialog_data['result']['actionIncomplete']) == True :
             print("True")
