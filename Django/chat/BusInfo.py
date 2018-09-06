@@ -104,13 +104,13 @@ def get_bus_station_information(busData):
             busList[busNxt] = bus.find("nxtStn").text
             bcnt = bcnt+1
 
-        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i]+") "+"]💌\n"
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
         for i in range(0, bcnt):
             bus_msg1 = "msg1_c"+str(i)
             bus_msg2 = "msg2_c"+str(i)
             bus_adr = "adr_c"+str(i)
             bus_No = "busNo_c"+str(i)
-            text += "🚌 " + busList[bus_No]+"("+busList[adr]+") " + " 👉🏿 "+busList[bus_msg1]+"\n"
+            text += "🚌 " + busList[bus_No] + " 👉🏿 "+busList[bus_msg1]+"\n"
         text += "\n"
 
     return text
