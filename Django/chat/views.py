@@ -133,7 +133,7 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
 
-    if eq(str(data['result']['metadata']['intentName']),"us_station_and_number") :
+    if eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
         print("OKOKOKOKOK")
             
 
