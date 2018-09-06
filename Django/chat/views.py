@@ -125,10 +125,12 @@ def message(request):
                 DB.bus_station_result = bus_return[2]
                 DB.dialogflow_action = 1
                 DB.save()
-
-            return JsonResponse({
+                
+                return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
-            })
+                })
+
+            
 
         if DB.bus_action == 2 :
             res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
