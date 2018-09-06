@@ -80,8 +80,8 @@ def get_bus_station_information(busData):
 
     for i in range(0,len(bus_arsid[bus_station[1:len(bus_station)-1]])) :
         #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
-        print(bus_arsid[bus_station][i])
-        oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
+        print(bus_arsid[bus_station[1:len(bus_station)-1]][i])
+        oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station[1:len(bus_station)-1]][i]
         tree = ET.parse(urllib.request.urlopen(oAPI))
 
         root = tree.getroot()
@@ -102,7 +102,7 @@ def get_bus_station_information(busData):
             busList[busNxt] = bus.find("nxtStn").text
             bcnt = bcnt+1
 
-        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i]+") "+"]💌\n"
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station[1:len(bus_station)-1]][i]+") "+"]💌\n"
         for i in range(0, bcnt):
             bus_msg1 = "msg1_c"+str(i)
             bus_msg2 = "msg2_c"+str(i)
