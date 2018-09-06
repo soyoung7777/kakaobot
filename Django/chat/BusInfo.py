@@ -78,7 +78,7 @@ def get_bus_station_information(busData):
     my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encMy = urllib.parse.quote_plus(my)
 
-    for i in range(0,len(bus_arsid[bus_station])) :
+    for i in range(0,len(bus_arsid[bus_station[1:len(bus_station)-1]])) :
         #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
         print(bus_arsid[bus_station][i])
         oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
