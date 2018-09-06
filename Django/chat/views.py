@@ -88,8 +88,6 @@ def message(request):
             })
 
         DB.jsondata = dialog_data
-        DB.dialogflow_action = 0
-        DB.bus_action = 0
         DB.save()
 
 
