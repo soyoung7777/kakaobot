@@ -4,7 +4,7 @@ from jsonfield import JSONField
 class allData(models.Model):
 	session_id = models.CharField(max_length=128,primary_key=True)
 	session_end = models.IntegerField(default=0)
-	jsondata = JSONField(default={}, dump_kwargs={'ensure_ascii':False})
+	jsondata = models.TextField()
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
 	bus_station_result = models.IntegerField(default=0)
