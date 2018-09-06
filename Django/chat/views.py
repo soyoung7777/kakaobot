@@ -91,7 +91,7 @@ def message(request):
         DB.save()
 
 
-    data = json.loads(json.dumps(ast.literal_eval(DB.jsondata)))
+    data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
