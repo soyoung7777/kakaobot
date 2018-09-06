@@ -36,7 +36,7 @@ CLIENT_ACCESS_TOKEN = '72906773549e43b2b2fe92dcdd24abe7'
 
 
 
-def dialogflow(msg_str, session_id):
+def dialogflow(msg_str):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     dialogflow_request = ai.text_request()
 
