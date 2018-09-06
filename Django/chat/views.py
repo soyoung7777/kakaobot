@@ -135,7 +135,7 @@ def message(request):
             if eq(str(data['result']['metadata']['intentName']),"Bus_station") : 
                 res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
             elif eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
-                print("tttt")
+                res = BusInfo.get_bus_station_and_number_information([DB.bus_selected,DB.bus_arsid,data['result']['parameters']['bus_number']])
 
             DB.dialogflow_action = 0
             DB.bus_action = 0
@@ -144,7 +144,7 @@ def message(request):
             DB.bus_station_result = ""
             DB.jsondata = ""
             DB.save()
-            
+
             return JsonResponse({
             'message': {'text': res},
             })

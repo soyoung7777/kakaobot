@@ -87,7 +87,6 @@ def get_bus_station_information(busData):
 
         root = tree.getroot()
         mbody = root.find("msgBody")
-        print(mbody)
 
         busList = {}
         bcnt = 0
@@ -118,6 +117,48 @@ def get_bus_station_information(busData):
 
 def get_bus_station_and_number_information(busData) :
     text = ""
+    bus_station = busData[0]
+    bus_station = bus_station.replace("'","")
+    bus_arsid = json.loads(json.dumps(ast.literal_eval(busData[1])))
+    bus_number = busData[2]
+    bus_number = bus_number.replace("'","")
+
+    ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
+    encMy = urllib.parse.quote_plus(my)
+
+    print("STation : " + bus_station)
+    for i in range(0,len(bus_arsid[bus_station])) :
+        #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
+        oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
+        tree = ET.parse(urllib.request.urlopen(oAPI))
+
+        root = tree.getroot()
+        mbody = root.find("msgBody")
+
+        busList = {}
+        bcnt = 0
+        for bus in mbody.iter("itemList"):
+            msg1 = "msg1_c"+str(bcnt)
+            msg2 = "msg2_c"+str(bcnt)
+            adr = "adr_c"+str(bcnt)
+            busNo = "busNo_c"+str(bcnt)
+            busNxt = "busNtext_c" + str(bcnt)
+            busList[msg1] =  bus.find("arrmsg1").text
+            busList[msg2] =  bus.find("arrmsg2").text
+            busList[stationNm1] = bus.find("stationNm1").text
+            busList[stationNm2] = bus.find("stationNm2").text
+            busList[congetion1] = bus.find("congetion1").text
+            busList[congetion2] = bus.find("congetion2").text
+            busList[adr] =  bus.find("adirection").text
+            busList[busNo] =  bus.find("rtNm").text
+            busList[busNxt] = bus.find("nxtStn").text
+            bcnt = bcnt+1
+
+            if eq(busNo,bus_number) :
+
+
+
 
 
 
