@@ -100,7 +100,8 @@ def message(request):
         print("dialogflow action = 1")
         if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
             if DB.bus_action == 1 :
-                DB.bus_selected = list(DB.bus_station_result)[int(msg_str)-1]
+                print(DB.bus_station_result)
+                DB.bus_selected = DB.bus_station_result[int(msg_str)-1]
                 print(bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
