@@ -71,7 +71,6 @@ def get_bus_direction(stationName):
 
 def get_bus_station_information(busData):
     text = ""
-    print("BUSDATA : " + busData[0])
     bus_station = busData[0]
     bus_station = bus_station.replace("'","")
     bus_arsid = json.loads(json.dumps(ast.literal_eval(busData[1])))
@@ -88,6 +87,7 @@ def get_bus_station_information(busData):
 
         root = tree.getroot()
         mbody = root.find("msgBody")
+        print(mbody)
 
         busList = {}
         bcnt = 0
@@ -110,10 +110,15 @@ def get_bus_station_information(busData):
             bus_msg2 = "msg2_c"+str(i)
             bus_adr = "adr_c"+str(i)
             bus_No = "busNo_c"+str(i)
-            text += "🚌 " + busList[bus_No] + " 👉🏿 "+busList[bus_msg1]+"\n"
+            text += "🚌 " + busList[bus_No]+"("+busList[adr]+") " + " 👉🏿 "+busList[bus_msg1]+"\n"
         text += "\n"
 
     return text
+
+
+def get_bus_station_and_number_information(busData) :
+    text = ""
+
 
 
     ###버스 정보
