@@ -119,16 +119,16 @@ def message(request):
 
             #bus_return[0] == 2 :
 
-                DB.bus_action = 1
-                text = bus_return[1]
-                DB.bus_arsid = bus_return[3]
-                DB.bus_station_result = bus_return[2]
-                DB.dialogflow_action = 1
-                DB.save()
+            DB.bus_action = 1
+            text = bus_return[1]
+            DB.bus_arsid = bus_return[3]
+            DB.bus_station_result = bus_return[2]
+            DB.dialogflow_action = 1
+            DB.save()
 
-                return JsonResponse({
-                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
-                })
+            return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            })
 
         if DB.bus_action == 2 :
             res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
