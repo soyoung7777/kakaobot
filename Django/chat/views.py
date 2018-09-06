@@ -60,7 +60,7 @@ def message(request):
     user_id = msg['user_key']
     msg_str = msg['content']
 
-    num = alltData.objects.filter(session_id=user_id).count()
+    num = allData.objects.filter(session_id=user_id).count()
 
     txt = ""
 
