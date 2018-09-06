@@ -100,6 +100,7 @@ def message(request):
                 tmp_list = DB.bus_station_result
                 tmp_list = tmp_list.replace('[',"")
                 tmp_list = tmp_list.replace(']',"")
+                tmp_list = tmp_list.replace(' ',"")
                 bus_station_result = tmp_list.split(',')
                 DB.bus_selected = bus_station_result[int(msg_str)-1]
                 print(DB.bus_selected)
