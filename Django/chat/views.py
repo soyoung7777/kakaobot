@@ -69,7 +69,7 @@ def message(request):
         allData(session_id=user_id).save()
     #else:
 
-    DB = allData.objects.get(pk=user_id)
+    DB = allData.objects.get(session_id=user_id)
 
     if DB.dialogflow_action == 0 :
         print("dialogflow")
