@@ -91,12 +91,12 @@ def message(request):
         DB.save()
 
     tmpdata = json.dumps(DB.jsondata)
+    print("tmpdata : " + type(tmpdata))
     data = json.loads(tmpdata)
-    print("json : " + data)
+    print("data : " + type(data))
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
-        print(type(data))
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
                 DB.bus_selected = DB.bus_station_result[int(msg_str)-1]
