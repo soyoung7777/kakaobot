@@ -97,9 +97,10 @@ def message(request):
     data = json.loads(tmpdata)
 
     if DB.dialogflow_action == 1 :
+        print("dialogflow action = 1")
         if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
             if DB.bus_action == 1 :
-                DB.bus_selected = bus_station_result[int(msg_str)-1]
+                DB.bus_selected = list(DB.bus_station_result)[int(msg_str)-1]
                 print(bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
@@ -118,7 +119,7 @@ def message(request):
                 DB.bus_action = 1
                 text = bus_return[1]
                 DB.bus_arsid = bus_return[3]
-                bus_station_result = bus_return[2]
+                DB.bus_station_result = bus_return[2]
                 DB.dialogflow_action = 1
 
                 return JsonResponse({
