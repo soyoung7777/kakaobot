@@ -12,6 +12,7 @@ import re
 import time
 from operator import eq
 from random import *
+import ast
 
 from . import pathPrint
 from . import anotherPathPrint
@@ -90,9 +91,8 @@ def message(request):
         DB.dialogflow_action = 0
         DB.save()
 
-    tmpdata = json.dumps(DB.jsondata)
-    print(type(tmpdata))
-    data = json.loads(tmpdata)
+
+    data = json.loads(json.dumps(ast.literal_eval(DB.jsondata)))
     print(type(data))
 
     if DB.dialogflow_action == 1 :
