@@ -78,7 +78,7 @@ def message(request):
         print(dialog_data)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
         
-        if str(dialog_data['result']['actionIncomplete']) == True :
+        if eq((dialog_data['result']['actionIncomplete']),"True") :
             print("True")
             DB.jsondata = dialog_data
             DB.save()
@@ -86,7 +86,9 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-        elif str(dialog_data['result']['actionIncomplete']) == False :
+        elif eq(str(dialog_data['result']['actionIncomplete']),"False"):
+            DB.jsondata = dialog_data
+            DB.save()
             print("False")
             DB.dialogflow_action = 1
             DB.save()
