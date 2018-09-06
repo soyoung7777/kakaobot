@@ -71,6 +71,7 @@ def message(request):
     #else:
 
     DB = allData.objects.get(pk=user_id)
+    print("DB check : " + str(DB.session_id))
 
     if DB.dialogflow_action == 0 :
         print("dialogflow")
