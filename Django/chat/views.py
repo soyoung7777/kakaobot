@@ -111,6 +111,7 @@ def message(request):
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station" or "Bus_station_and_number"):
         if DB.bus_action == 0 :
+            print("action 0")
             bus_return = BusInfo.get_bus_station(data)
 
             if bus_return[0] == 1 :
@@ -120,6 +121,7 @@ def message(request):
                 DB.save()
 
             elif bus_return[0] == 2 :
+                print("action1")
                 DB.bus_action = 1
                 text = bus_return[1]
                 DB.bus_arsid = bus_return[3]
@@ -133,6 +135,7 @@ def message(request):
             
 
         if DB.bus_action == 2 :
+            print("action2")
             if eq(str(data['result']['metadata']['intentName']),"Bus_station") : 
                 res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
             elif eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number") :
