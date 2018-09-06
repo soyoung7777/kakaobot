@@ -86,12 +86,49 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-        elif eq(str(dialog_data['result']['actionIncomplete']),"False"):
-            DB.jsondata = dialog_data
-            DB.save()
-            print("False")
-            DB.dialogflow_action = 1
-            DB.save()
+
+        eq(str(dialog_data['result']['actionIncomplete']),"False"):
+        DB.jsondata = dialog_data
+        DB.dialogflow_action = 0
+        DB.save()
+
+    data = json.loads(DB.jsondata) 
+
+    if DB.dialogflow_action == 1 :
+        if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
+            if DB.bus_action == 1 :
+                DB.bus_selected = bus_station_result[int(msg_str)-1]
+                print(bus_selected)
+                DB.bus_action = 2
+                DB.dialogflow_action = 0
+
+    if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
+        if DB.bus_action == 0 :
+            DB.bus_return = BusInfo.get_bus_station(data)
+
+            if bus_return[0] == 1 :
+                DB.bus_selected = bus_return[2][0]
+                DB.bus_arsid = bus_return[3]
+                DB.bus_action = 2
+
+            elif bus_return[0] == 2 :
+
+                DB.bus_action = 1
+                text = bus_return[1]
+                DB.bus_arsid = bus_return[3]
+                bus_station_result = bus_return[2]
+                DB.dialogflow_action = 1
+
+                return JsonResponse({
+                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                })
+
+        if bus_action == 2 :
+            res = BusInfo.get_bus_station_information([bus_selected,bus_arsid])
+            return JsonResponse({
+            'message': {'text': res},
+            })
+
 
 
 
