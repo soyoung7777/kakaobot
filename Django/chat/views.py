@@ -81,7 +81,7 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-        else if str(data['result']['actionIncomplete']) == False :
+        elif str(data['result']['actionIncomplete']) == False :
             DB.dialogflow_action = 1
             DB.save()
 
