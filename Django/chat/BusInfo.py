@@ -75,7 +75,7 @@ def get_bus_station_information(busData):
     bus_station = busData[0]
     bus_arsid = json.loads(json.dumps(ast.literal_eval(busData[1])))
 
-    print(bus_arsid[bus_station])
+    print(bus_arsid[bus_station[1:len(bus_station)-1]])
 
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
     my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
