@@ -91,9 +91,9 @@ def message(request):
         DB.save()
 
     tmpdata = json.dumps(DB.jsondata)
-    print("tmpdata : " + type(tmpdata))
+    print(type(tmpdata))
     data = json.loads(tmpdata)
-    print("data : " + type(data))
+    print(type(data))
 
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
