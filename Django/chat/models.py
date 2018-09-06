@@ -7,9 +7,9 @@ class allData(models.Model):
 	jsondata = models.TextField()
 	dialogflow_action = models.IntegerField(default=0)
 	bus_action = models.IntegerField(default=0)
-	bus_station_result = models.TextField(default=0)
-	bus_selected = models.CharField(max_length=128)
-	bus_arsid = models.IntegerField(default=0)
+	bus_station_result = models.TextField()
+	bus_selected = models.TextField(max_length=128)
+	bus_arsid = models.TextField()
 
 
 	def __str__(self):
