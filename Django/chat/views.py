@@ -112,8 +112,8 @@ def message(request):
             bus_return = BusInfo.get_bus_station(data)
 
             if bus_return[0] == 1 :
-                DB.bus_selected = bus_return[2][0]
-                DB.bus_arsid = bus_return[3]
+                DB.bus_selected = str(bus_return[2][0])
+                DB.bus_arsid = str(bus_return[3])
                 DB.bus_action = 2
                 DB.save()
 
@@ -142,9 +142,6 @@ def message(request):
             return JsonResponse({
             'message': {'text': res},
             })
-
-
-
 
 
     return JsonResponse({
