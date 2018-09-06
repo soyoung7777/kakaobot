@@ -71,6 +71,7 @@ def message(request):
 
     DB = allData.objects.get(pk=user_id)
     DB.dialogflow_action = 0
+    DB.bus_action = 0
     DB.save()
     print("DB check : " + str(DB.session_id))
 
