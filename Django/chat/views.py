@@ -118,7 +118,7 @@ def message(request):
                 DB.bus_action = 2
                 DB.save()
 
-            bus_return[0] == 2 :
+            elif bus_return[0] == 2 :
                 DB.bus_action = 1
                 text = bus_return[1]
                 DB.bus_arsid = bus_return[3]
