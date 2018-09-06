@@ -98,7 +98,7 @@ def message(request):
         print("dialogflow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
-                print(type(DB.bus_station_result))
+                print("station : " + DB.bus_station_result)
                 DB.bus_selected = DB.bus_station_result[int(msg_str)-1]
                 print(bus_selected)
                 DB.bus_action = 2
