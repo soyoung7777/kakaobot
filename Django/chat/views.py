@@ -70,6 +70,8 @@ def message(request):
     #else:
 
     DB = allData.objects.get(pk=user_id)
+    DB.dialogflow_action = 0
+    DB.save()
     print("DB check : " + str(DB.session_id))
 
 
@@ -87,12 +89,12 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
 
-        eq(str(dialog_data['result']['actionIncomplete']),"False"):
         DB.jsondata = dialog_data
         DB.dialogflow_action = 0
         DB.save()
 
-    data = json.loads(DB.jsondata) 
+    data = json.loads(DB.jsondata)
+
 
     if DB.dialogflow_action == 1 :
         if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
