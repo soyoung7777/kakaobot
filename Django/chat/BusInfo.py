@@ -73,10 +73,8 @@ def get_bus_station_information(busData):
     bus_station = busData[0]
     bus_arsid = busData[1]
 
-    print("getInfo " + bus_station + " " + str(bus_arsid[bus_station]))
-
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
-    my = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encMy = urllib.parse.quote_plus(my)
 
     for i in range(0,len(bus_arsid[bus_station])) :
