@@ -72,8 +72,7 @@ def get_bus_direction(stationName):
 def get_bus_station_information(busData):
     text = ""
     print("BUSDATA : " + busData[0])
-    bus_station = busData[0][1:len(busData)-1]
-    print("BUS : " + bus_station)
+    bus_station = busData[0]
     bus_arsid = json.loads(json.dumps(ast.literal_eval(busData[1])))
 
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
