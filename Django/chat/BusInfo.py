@@ -8,7 +8,6 @@ bus_ars_id = {}
 
 def get_bus_station(json_Data):
     #오디세이에서 버스 리스트 반환
-    global bus_ars_id
 
     searchST = str(json_Data['result']['parameters']['bus_station'])
     print("searchST " + searchST)
