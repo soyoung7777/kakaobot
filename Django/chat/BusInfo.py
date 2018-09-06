@@ -71,17 +71,18 @@ def get_bus_direction(stationName):
 
 def get_bus_station_information(busData):
     text = ""
-    bus_station = busData[0]
+    bus_station = busData[0][1:len(busData)-1]
+    print("BUS : " + bus_station)
     bus_arsid = json.loads(json.dumps(ast.literal_eval(busData[1])))
 
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
     my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encMy = urllib.parse.quote_plus(my)
 
-    for i in range(0,len(bus_arsid[bus_station[1:len(bus_station)-1]])) :
+    for i in range(0,len(bus_arsid[bus_station])) :
         #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
-        print(bus_arsid[bus_station[1:len(bus_station)-1]][i])
-        oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station[1:len(bus_station)-1]][i]
+        print(bus_arsid[bus_station][i])
+        oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
         tree = ET.parse(urllib.request.urlopen(oAPI))
 
         root = tree.getroot()
@@ -102,7 +103,7 @@ def get_bus_station_information(busData):
             busList[busNxt] = bus.find("nxtStn").text
             bcnt = bcnt+1
 
-        text += "💌[ "+bus_station+"("+bus_arsid[bus_station[1:len(bus_station)-1]][i]+") "+"]💌\n"
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i]+") "+"]💌\n"
         for i in range(0, bcnt):
             bus_msg1 = "msg1_c"+str(i)
             bus_msg2 = "msg2_c"+str(i)
