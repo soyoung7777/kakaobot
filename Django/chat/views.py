@@ -93,7 +93,7 @@ def message(request):
         DB.dialogflow_action = 0
         DB.save()
 
-    data = json.loads(DB.jsondata)
+    data = json.dumps(DB.jsondata)
 
 
     if DB.dialogflow_action == 1 :
