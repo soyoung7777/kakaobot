@@ -151,6 +151,8 @@ def get_bus_station_and_number_information(busData) :
             busList[busNo]['busNxt'] = bus.find("nxtStn").text
             print(busList[stationNm1]+ " " + busList[stationNm2])
 
+    print("\n\n=>\n")
+    print(json.dumps(busList,indent=1))
 
 
 def tree():
