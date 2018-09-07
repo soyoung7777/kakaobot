@@ -99,7 +99,7 @@ def get_bus_station_information(busData):
             #busList[busNo]['stationNm2'] = bus.find("stationNm2").text
             busList[busNo]['adr'] =  bus.find("adirection").text
             busList[busNo]['busNxt'] = bus.find("nxtStn").text
-            print(busList[stationNm1]+ " " + busList[stationNm2])
+            #print(busList[stationNm1]+ " " + busList[stationNm2])
 
         print("\n\n=>\n")
         print(json.dumps(busList,indent=1))
