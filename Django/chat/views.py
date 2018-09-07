@@ -121,7 +121,7 @@ def message(request):
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
                 DB.save()            
-        
+
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
             print("action 0")
