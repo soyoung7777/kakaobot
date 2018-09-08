@@ -61,6 +61,7 @@ def get_subway_station_and_number_information(subwayData):
             current_stationID = int(subwayData[1][subwayData[0]])
             current_laneName = data['result']['station'][idx]['laneName'] #예:수도권 1호선
 
+    line_number = subwayData[2]
     #if eq(direction,"상행") or eq(direction,"내선"):
     #상행일 때
     direction = "상행"
