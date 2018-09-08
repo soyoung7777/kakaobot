@@ -198,7 +198,6 @@ def message(request):
             })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
         print("Intent : Subway_station")
-        DB.subway_action = 0
 
         if DB.subway_action == 0 :
             print("action 0")
