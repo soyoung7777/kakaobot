@@ -208,6 +208,7 @@ def message(request):
                 print("subway action2")
                 DB.subway_selected = str(subway_return[2][0])
                 DB.subway_action = 2
+                DB.subway_station_name = data['result']['parameters']['subway_station']
                 DB.save()
 
             elif subway_return[0] == 2 :#해당 역에 호선이 여러개 있는 경우
