@@ -10,35 +10,35 @@ subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수�
 ,[1006, "수도권 6호선"],[1007, "수도권 7호선"],[1008, "수도권 8호선"],[1009, "수도권 9호선"],[1065,"수도권 공항철도"],[1071,"수도권 수인선"],[1075,"수도권 분당선"]
 ,[1075,"수도권 분당선"],[1063,"경의중앙선"],[1067,"수도권 경춘선"],[1077,"수도권 신분당선"],[1077,"수도권 신분당선"]]
 
-def get_subway_station(json_Data):
-
-    res = ""
-    duplicate = False
-    stationName = str(json_Data['result']['parameters']['subway_station'])
-    # line_number = str(json_Data['result']['parameters']['line_number'])
-    SNList = [["반포역", "신반포역", "구반포역"], ["논현역", "신논현역"], ["뚝섬역", "뚝섬유원지역"]]
-
-    subway_station_dic = {}
-    print("입력한 역이름 :"+stationName)
-    for e in SNList:
-        if stationName in e:
-            duplicate = True#선택사항 존재
-            for s in e:
-                data = getStationInfo(s)
-                subway_station_dic[s].append(int(data['result']['station'][0]['stationID']))
-
-    if duplicate == False:
-        data = getStationInfo(stationName)
-        print(data)
-        subway_station_dic[stationName] = int(data['result']['station'][0]['stationID'])
-
-    if len(subway_station_dic.keys()) == 1:
-        return[1,res,list(subway_station_dic.keys()), subway_station_dic]
-    else:
-        res += "🤔 지하철 역을 선택해 주세요. 🤗" + "\n"
-        for i in range(0, len(subway_station_dic.keys())):
-            res += str(i+1)+". "+list(subway_station_dic.keys())[i]+"\n"
-        return [2,res,list(subway_station_dic.keys()),subway_station_dic]
+# def get_subway_station(json_Data):
+#
+#     res = ""
+#     duplicate = False
+#     stationName = str(json_Data['result']['parameters']['subway_station'])
+#     # line_number = str(json_Data['result']['parameters']['line_number'])
+#     SNList = [["반포역", "신반포역", "구반포역"], ["논현역", "신논현역"], ["뚝섬역", "뚝섬유원지역"]]
+#
+#     subway_station_dic = {}
+#     print("입력한 역이름 :"+stationName)
+#     for e in SNList:
+#         if stationName in e:
+#             duplicate = True#선택사항 존재
+#             for s in e:
+#                 data = getStationInfo(s)
+#                 subway_station_dic[s].append(int(data['result']['station'][0]['stationID']))
+#
+#     if duplicate == False:
+#         data = getStationInfo(stationName)
+#         print(data)
+#         subway_station_dic[stationName] = int(data['result']['station'][0]['stationID'])
+#
+#     if len(subway_station_dic.keys()) == 1:
+#         return[1,res,list(subway_station_dic.keys()), subway_station_dic]
+#     else:
+#         res += "🤔 지하철 역을 선택해 주세요. 🤗" + "\n"
+#         for i in range(0, len(subway_station_dic.keys())):
+#             res += str(i+1)+". "+list(subway_station_dic.keys())[i]+"\n"
+#         return [2,res,list(subway_station_dic.keys()),subway_station_dic]
 
 # def get_result(stationName, line_number):
 def get_subway_station_and_number_information(subwayData):
@@ -52,17 +52,16 @@ def get_subway_station_and_number_information(subwayData):
     station_info = data['result']['station']
     current_stationID = 0
 
-    subwayData[1] = ast.literal_eval(subwayData[1])#string to dict
     # print("stationName : "+subwayData[0])
     # print("station Dictionary : "+str(subwayData[1]))
     # print("station Dictionary type: "+str(type(subwayData[1])))
     # print("station ID : "+str(subwayData[1][subwayData[0]]))
     for idx, info in enumerate(station_info):
         if subwayData[2] in info['laneName']:
-            current_stationID = int(subwayData[1][subwayData[0]])
+            current_stationID = int(data['result']['station'][idx]['stationID'])
             current_laneName = data['result']['station'][idx]['laneName'] #예:수도권 1호선
 
-    line_number = subwayData[2]
+    line_number = subwayData[1]
     #if eq(direction,"상행") or eq(direction,"내선"):
     #상행일 때
     direction = "상행"

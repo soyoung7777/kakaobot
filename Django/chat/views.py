@@ -122,18 +122,18 @@ def message(request):
                 DB.dialogflow_action = 0
                 DB.save()
 
-        if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
-            if DB.subway_action == 1 :
-                tmp_list = DB.subway_station_result
-                tmp_list = tmp_list.replace('[',"")
-                tmp_list = tmp_list.replace(']',"")
-                tmp_list = tmp_list.replace(' ',"")
-                bus_station_result = tmp_list.split(',')
-                DB.subway_selected = subway_station_result[int(msg_str)-1]
-                print(DB.subway_selected)
-                DB.subway_action = 2
-                DB.dialogflow_action = 0
-                DB.save()
+        # if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
+        #     if DB.subway_action == 1 :
+        #         tmp_list = DB.subway_station_result
+        #         tmp_list = tmp_list.replace('[',"")
+        #         tmp_list = tmp_list.replace(']',"")
+        #         tmp_list = tmp_list.replace(' ',"")
+        #         bus_station_result = tmp_list.split(',')
+        #         DB.subway_selected = subway_station_result[int(msg_str)-1]
+        #         print(DB.subway_selected)
+        #         DB.subway_action = 2
+        #         DB.dialogflow_action = 0
+        #         DB.save()
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
@@ -184,31 +184,36 @@ def message(request):
                 })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
-        print("subway action : "+str(DB.subway_action))
-        DB.subway_action = 0
-        if DB.subway_action == 0 :
-            print("subway action 0")
-            subway_return = SubwayInfo.get_subway_station(data)
+        res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+        ,data['result']['parameters']['line_number']])
+        return JsonResponse({
+        'message': {'text': res},
+        })
+        #print("subway action : "+str(DB.subway_action))
+        #DB.subway_action = 0
+        #if DB.subway_action == 0 :
+            #print("subway action 0")
+        #subway_return = SubwayInfo.get_subway_station(data)
 
-            if subway_return[0] == 1 :
-                print("subway action 2")
-                DB.subway_selected = str(subway_return[2][0])
-                DB.subway_stationid = str(subway_return[3])
-                DB.subway_action = 2
-                DB.save()
+            # if subway_return[0] == 1 :
+            #     print("subway action 2")
+            #     DB.subway_selected = str(subway_return[2][0])
+            #     DB.subway_stationid = str(subway_return[3])
+            #     DB.subway_action = 2
+            #     DB.save()
 
-            elif subway_return[0] == 2 :
-                print("subway action 1")
-                DB.subway_action = 1
-                text = subway_return[1]
-                DB.subway_stationid = subway_return[3]
-                DB.subway_station_result = subway_return[2]
-                DB.dialogflow_action = 1
-                DB.save()
-
-                return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
-                })
+            # if subway_return[0] == 2 :
+            #     print("subway action 1")
+            #     DB.subway_action = 1
+            #     text = subway_return[1]
+            #     DB.subway_stationid = subway_return[3]
+            #     DB.subway_station_result = subway_return[2]
+            #     DB.dialogflow_action = 1
+            #     DB.save()
+            #
+            #     return JsonResponse({
+            #     'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            #     })
 
     if DB.bus_action == 2 :
         print("action2")
@@ -235,24 +240,24 @@ def message(request):
     #     'keyboard':{'type':'text'}
     # })
 
-    if DB.subway_action == 2 :
-        print("action2")
-        # if eq(str(data['result']['metadata']['intentName']),"Bus_station") :
-        #     res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
-        if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
-            res = SubwayInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['line_number']])
-        print(res)
-        DB.dialogflow_action = 0
-        DB.subway_action = 0
-        DB.subway_stationid = ""
-        DB.subway_selected = ""
-        DB.subway_station_result = ""
-        DB.jsondata = ""
-        DB.save()
-
-        return JsonResponse({
-        'message': {'text': res},
-        })
+    # if DB.subway_action == 2 :
+    #     print("action2")
+    #     # if eq(str(data['result']['metadata']['intentName']),"Bus_station") :
+    #     #     res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
+    #     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
+    #         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['line_number']])
+    #     print(res)
+    #     DB.dialogflow_action = 0
+    #     DB.subway_action = 0
+    #     DB.subway_stationid = ""
+    #     DB.subway_selected = ""
+    #     DB.subway_station_result = ""
+    #     DB.jsondata = ""
+    #     DB.save()
+    #
+    #     return JsonResponse({
+    #     'message': {'text': res},
+    #     })
 
 
     return JsonResponse({
