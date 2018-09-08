@@ -184,6 +184,7 @@ def message(request):
                 })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
+        print("subway action : "+str(DB.subway_action))
         if DB.subway_action == 0 :
             print("subway action 0")
             subway_return = SubwayInfo.get_subway_station(data)
