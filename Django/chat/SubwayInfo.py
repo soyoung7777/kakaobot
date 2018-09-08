@@ -44,6 +44,7 @@ subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수�
 def config_exist_subway_station_and_number(subwayData):
     stationName = subwayData[0]
     data = getStationInfo(stationName)
+    station_info = data['result']['station']
     Exist = False
     for idx, info in enumerate(station_info):
         if subwayData[1] in info['laneName'] and stationName in info['stationName']:
