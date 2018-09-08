@@ -52,7 +52,7 @@ def get_subway_station_and_number_information(subwayData):
 
     for idx, info in enumerate(station_info):
         if subwayData[2] in info['laneName']:
-            current_stationID = subwayData[1]
+            current_stationID = int(subwayData[1])
             current_laneName = data['result']['station'][idx]['laneName'] #예:수도권 1호선
 
     #if eq(direction,"상행") or eq(direction,"내선"):
