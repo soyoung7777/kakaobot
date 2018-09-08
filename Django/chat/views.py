@@ -92,7 +92,6 @@ def message(request):
 
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
     print(data)
-    DB.dialogflow_action = 0
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
