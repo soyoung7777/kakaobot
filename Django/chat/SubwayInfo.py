@@ -53,7 +53,7 @@ def get_subway_station_and_number_information(subwayData):
 
     subwayData[1] = ast.literal_eval(subwayData[1])
     print("stationName : "+subwayData[0])
-    print("station Dictionary : "+subwayData[1])
+    print("station Dictionary : "+str(subwayData[1]))
     print("station Dictionary type: "+str(type(subwayData[1])))
     print("station ID : "+str(subwayData[1][subwayData[0]]))
     for idx, info in enumerate(station_info):
