@@ -13,7 +13,7 @@ class allData(models.Model):
 	subway_action = models.IntegerField(default=0)
 	subway_station_result = models.TextField(default="")
 	subway_selected = models.TextField(max_length=128,default="")
-	subway_stationid = models.TextField(default="")
+	subway_stationid = models.TextField(default={})
 
 
 	def __str__(self):
