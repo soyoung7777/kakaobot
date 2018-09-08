@@ -210,6 +210,7 @@ def message(request):
             elif subway_return[0] == 2 :#해당 역에 호선이 여러개 있는 경우
                 print("subway action1")
                 DB.subway_action = 1
+                DB.subway_station_result =subway_return[2]
                 text = subway_return[1]
                 # DB.bus_station_result = bus_return[2]
                 DB.dialogflow_action = 1
