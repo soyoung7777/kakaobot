@@ -125,7 +125,6 @@ def message(request):
                 tmp_list = DB.subway_station_result
                 tmp_list = tmp_list.replace('[',"")
                 tmp_list = tmp_list.replace(']',"")
-                tmp_list = tmp_list.replace(' ',"")
                 subway_station_result = tmp_list.split(',')
                 DB.subway_selected = subway_station_result[int(msg_str)-1]
                 print(DB.subway_selected)
@@ -274,7 +273,7 @@ def message(request):
 
         #if Exist:
         line_number = DB.subway_selected
-        line_number = line_number.replace(u'수도권',"")
+        line_number = line_number.replace('수도권',"")
         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
 
