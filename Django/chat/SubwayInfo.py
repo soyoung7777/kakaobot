@@ -180,6 +180,13 @@ def get_subway_station_and_number_information(subwayData):
     StationExistNameList = []
 
     for idx, get_stationID in enumerate(stationID):
+        print("=======getStationResult INFO=======")
+        print("current_stationID : "+str(current_stationID))
+        print("get_stationID : "+str(get_stationID))
+        print("idx*2 : "+str(idx*2))
+        print("current_laneName : "+str(current_laneName))
+        print("direction : "+direction)
+        print("line_number : "+line_number)
         new_stationName = getStationName(get_stationID)
         if new_stationName == "none":
             continue
@@ -187,14 +194,7 @@ def get_subway_station_and_number_information(subwayData):
             text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
             canUse = False
             break
-        print("=======getStationResult INFO=======")
-        print("current_stationID : "+str(current_stationID))
-        print("get_stationID : "+str(get_stationID))
-        print("new_stationName : "+str(new_stationName))
-        print("idx*2 : "+str(idx*2))
-        print("current_laneName : "+str(current_laneName))
-        print("direction : "+direction)
-        print("line_number : "+line_number)
+
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
         if eq(num,"error"):
