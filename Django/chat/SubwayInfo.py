@@ -51,6 +51,7 @@ def get_subway_station_and_number_information(subwayData):
     current_stationID = 0
     print("stationName : "+subwayData[0])
     print("station Dictionary : "+subwayData[1])
+    print("station Dictionary type: "+type(subwayData[1]))
     print("station ID : "+str(subwayData[1][subwayData[0]]))
     for idx, info in enumerate(station_info):
         if subwayData[2] in info['laneName']:
