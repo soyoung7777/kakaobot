@@ -11,9 +11,9 @@ class allData(models.Model):
 	bus_selected = models.TextField(max_length=128)
 	bus_arsid = models.TextField()
 	subway_action = models.IntegerField(default=0)
-	subway_station_result = models.TextField()
+	subway_station_result = models.TextField(default="")
 	subway_selected = models.TextField(max_length=128)
-	subway_stationid = models.TextField()
+	subway_stationid = models.TextField(default="")
 
 
 	def __str__(self):
