@@ -169,7 +169,7 @@ def get_subway_station_and_number_information(subwayData):
         print("stationNameList : "+str(StationNameList))
         print("stationExistNameList : "+str(StationExistNameList))
         count_end = 0#종점인지 체크하는 변수
-        text +="💌["+stationName+" "+line_number+"하행선 정보입니다]💌\n"
+        text +="\n\n💌["+stationName+" "+line_number+"하행선 정보입니다]💌\n"
         for total in StationNameList:
             exist = False
             for element in StationExistNameList:
