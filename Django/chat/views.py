@@ -273,6 +273,8 @@ def message(request):
         #data['result']['parameters']['line_number']])
 
         #if Exist:
+        line_number = DB.subway_selected
+        line_number = line_number.replace('수도권',"")
         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
 
