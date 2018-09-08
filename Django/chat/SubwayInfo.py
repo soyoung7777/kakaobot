@@ -127,7 +127,6 @@ def get_subway_station_and_number_information(subwayData):
     direction = "하행"
     stationID = [current_stationID,current_stationID-2, current_stationID-4]
 
-    text=""
     canUse = True
     StationExistList=[]
 
@@ -183,6 +182,8 @@ def get_subway_station_and_number_information(subwayData):
         if count_end ==6:
             text +="종점인데 어딜가시려구요?👀\n"
 
+    print("===============result==============")
+    print(text)
     return text
 
 
