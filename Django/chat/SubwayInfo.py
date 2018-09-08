@@ -1,3 +1,4 @@
+#subway_return = SubwayInfo.get_subway_station(data)
 import json
 import urllib.request
 import urllib.parse
@@ -7,26 +8,55 @@ subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수�
 ,[1006, "수도권 6호선"],[1007, "수도권 7호선"],[1008, "수도권 8호선"],[1009, "수도권 9호선"],[1065,"수도권 공항철도"],[1071,"수도권 수인선"],[1075,"수도권 분당선"]
 ,[1075,"수도권 분당선"],[1063,"경의중앙선"],[1067,"수도권 경춘선"],[1077,"수도권 신분당선"],[1077,"수도권 신분당선"]]
 
-def get_result(stationName, line_number, subway_direction):
-    option = get_option(stationName)
+def get_subway_station(json_Data):
 
-    stationName = "서울역"
+    res = ""
+    duplicate = False
+    stationName = str(json_Data['result']['parameters']['subway_station'])
+    # line_number = str(json_Data['result']['parameters']['line_number'])
+    SNList = [["반포역", "신반포역", "구반포역"], ["논현역", "신논현역"], ["뚝섬역", "뚝섬유원지역"]]
 
+    subway_station_dic = {}
+    print("입력한 역이름 :"+stationName)
+    for e in SNList:
+        if stationName in e:
+            duplicate = True#선택사항 존재
+            for s in e:
+                data = getStationInfo(s)
+                subway_station_dic[s].append(int(data['result']['station'][0]['stationID']))
+
+    if duplicate = False:
+        data = getStationInfo(stationName)
+        subway_station_dic[stationName] = int(data['result']['station'][0]['stationID'])
+
+    if len(subway_station_dic.keys()) == 1:
+        return[1,res,list(subway_station_dic.keys()), subway_station_dic]
+    else:
+        res += "🤔 지하철 역을 선택해 주세요. 🤗" + "\n"
+        for i in range(0, len(subway_station_dic.keys())):
+            res += str(i+1)+". "+list(subway_station_dic.keys())[i]+"\n"
+        return [2,res,list(subway_station_dic.keys()),subway_station_dic]
+
+# def get_result(stationName, line_number):
+def get_subway_station_and_number_information(subwayData):
+#     option = get_option(stationName)
+#
+#     stationName = "서울역"
+    #stationName = str(json_Data['result']['parameters']['subway_station'])
+    stationName = subwayData[0]
     data = getStationInfo(stationName)
 
     station_info = data['result']['station']
     current_stationID = 0
 
     for idx, info in enumerate(station_info):
-        if line_number in info['laneName']:
-            current_stationID = int(data['result']['station'][idx]['stationID'])
+        if subwayData[2] in info['laneName']:
+            current_stationID = subwayData[1]
             current_laneName = data['result']['station'][idx]['laneName'] #예:수도권 1호선
 
-    if eq(direction,"상행") or eq(direction,"내선"):
-        stationID = [current_stationID+4,current_stationID+2, current_stationID]
-
-    if eq(direction,"하행") or eq(direction,"외선"):
-        stationID = [current_stationID,current_stationID-2, current_stationID-4]
+    #if eq(direction,"상행") or eq(direction,"내선"):
+    #상행일 때
+    stationID = [current_stationID+4,current_stationID+2, current_stationID]
 
     text=""
     canUse = True
@@ -49,21 +79,80 @@ def get_result(stationName, line_number, subway_direction):
 
     if canUse:
         StationExistNameList = []
-        if eq(direction,"상행") or eq(direction,"내선"):
-            StationIDList = [current_stationID+6,current_stationID+5,current_stationID+4,current_stationID+3,current_stationID+2, current_stationID+1,current_stationID]
-        if eq(direction,"하행") or eq(direction,"외선"):
-            StationIDList = [current_stationID-6,current_stationID-5,current_stationID-4,current_stationID-3,current_stationID-2, current_stationID-1,current_stationID]
+        #if eq(direction,"상행") or eq(direction,"내선"):
+        StationIDList = [current_stationID+6,current_stationID+5,current_stationID+4,current_stationID+3,current_stationID+2, current_stationID+1,current_stationID]
+        # if eq(direction,"하행") or eq(direction,"외선"):
+        #     StationIDList = [current_stationID-6,current_stationID-5,current_stationID-4,current_stationID-3,current_stationID-2, current_stationID-1,current_stationID]
         StationNameList = []
         for id in StationIDList:
             StationNameList.append(getStationName(id))#뒤로 -5정거장까지 전체 노선 정보
         for n in StationExistList:
-            if eq(direction,"상행") or eq(direction,"내선"):
-                StationExistNameList.append(getStationName(current_stationID-n+6))
-            if eq(direction,"하행") or eq(direction,"외선"):
-                StationExistNameList.append(getStationName(current_stationID-n))
+            #if eq(direction,"상행") or eq(direction,"내선"):
+            StationExistNameList.append(getStationName(current_stationID-n+6))
+            # if eq(direction,"하행") or eq(direction,"외선"):
+            #     StationExistNameList.append(getStationName(current_stationID-n))
 
         count_end = 0#종점인지 체크하는 변수
-        text +="💌["+stationName+" "+line_number+"정보입니다]💌\n"
+        text +="💌["+stationName+" "+line_number+"상행선 정보입니다]💌\n"
+        for total in StationNameList:
+            exist = False
+            for element in StationExistNameList:
+                if eq(element,total):
+                    if eq(total,StationNameList[6]):
+                        text+=total+"🚋\n"
+                    else:
+                        text+=total+"🚋\n   ↓↓↓   \n"
+                    exist = True
+            if exist==False:
+                if eq(total,"none"):
+                    count_end = count_end+1
+                    continue
+                if eq(total,StationNameList[6]):
+                    text +=total+"\n"
+                else:
+                    text+=total+"\n   ↓↓↓   \n"
+        if count_end ==6:
+            text +="종점인데 어딜가시려구요?👀\n"
+
+    #하행일때
+    stationID = [current_stationID,current_stationID-2, current_stationID-4]
+
+    text=""
+    canUse = True
+    StationExistList=[]
+
+    for idx, get_stationID in enumerate(stationID):
+        new_stationName = getStationName(get_stationID)
+        if new_stationName == "none":
+            continue
+        num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
+
+        if eq(num,"error"):
+            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            canUse = False
+            break
+        elif eq(num,"none"):
+            continue
+        else:
+            StationExistList.append(num)
+
+    if canUse:
+        StationExistNameList = []
+        #if eq(direction,"상행") or eq(direction,"내선"):
+        #StationIDList = [current_stationID+6,current_stationID+5,current_stationID+4,current_stationID+3,current_stationID+2, current_stationID+1,current_stationID]
+        # if eq(direction,"하행") or eq(direction,"외선"):
+        StationIDList = [current_stationID-6,current_stationID-5,current_stationID-4,current_stationID-3,current_stationID-2, current_stationID-1,current_stationID]
+        StationNameList = []
+        for id in StationIDList:
+            StationNameList.append(getStationName(id))#뒤로 -5정거장까지 전체 노선 정보
+        for n in StationExistList:
+            #if eq(direction,"상행") or eq(direction,"내선"):
+            #StationExistNameList.append(getStationName(current_stationID-n+6))
+            # if eq(direction,"하행") or eq(direction,"외선"):
+            StationExistNameList.append(getStationName(current_stationID-n))
+
+        count_end = 0#종점인지 체크하는 변수
+        text +="💌["+stationName+" "+line_number+"하행선 정보입니다]💌\n"
         for total in StationNameList:
             exist = False
             for element in StationExistNameList:
@@ -85,6 +174,7 @@ def get_result(stationName, line_number, subway_direction):
             text +="종점인데 어딜가시려구요?👀\n"
 
     return text
+
 
 
 def getStationInfo(myStationName):
@@ -180,51 +270,51 @@ def getStationResult(cID, stationID, stationName, idx, current_laneName,directio
     except urllib.error.HTTPError:
         return "error"
 
-def get_subway_line(subway_station):
-    ##지하철 호선 리스트
-    my = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
-    encMy = urllib.parse.quote_plus(my)
-    encST = urllib.parse.quote_plus(subway_station)
+# def get_subway_line(subway_station):
+#     ##지하철 호선 리스트
+#     my = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+#     encMy = urllib.parse.quote_plus(my)
+#     encST = urllib.parse.quote_plus(subway_station)
+#
+#     odUrl = "https://api.odsay.com/v1/api/searchStation?lang=&stationName="+encST+"&CID=1000&stationClass=2&apiKey="+encMy
+#
+#     request = urllib.request.Request(odUrl)
+#     response = urllib.request.urlopen(request)
+#
+#     json_rt = response.read().decode('utf-8')
+#     data = json.loads(json_rt)
+#
+#     sub_line_list = []
+#     stInfo = data['result']['station']
+#
+#     for i in stInfo:
+#         if i['laneName'] not in sub_line_list:
+#             sub_line_list.append(i['laneName'])
+#
+#     action = 1
+#     re = "호선을 선택해 주세요." + "\n"
+#     for i in range(0,len(sub_line_list)):
+#         re += str(i+1) +". " + sub_line_list[i] + "\n"
+#
+#     return [re,action,sub_line_list]
 
-    odUrl = "https://api.odsay.com/v1/api/searchStation?lang=&stationName="+encST+"&CID=1000&stationClass=2&apiKey="+encMy
 
-    request = urllib.request.Request(odUrl)
-    response = urllib.request.urlopen(request)
-
-    json_rt = response.read().decode('utf-8')
-    data = json.loads(json_rt)
-
-    sub_line_list = []
-    stInfo = data['result']['station']
-
-    for i in stInfo:
-        if i['laneName'] not in sub_line_list:
-            sub_line_list.append(i['laneName'])
-
-    action = 1
-    re = "호선을 선택해 주세요." + "\n"
-    for i in range(0,len(sub_line_list)):
-        re += str(i+1) +". " + sub_line_list[i] + "\n"
-
-    return [re,action,sub_line_list]
-
-
-def get_option(stationName):
-
-    SNList = [["반포역", "신반포역", "구반포역"], ["논현역", "신논현역"]]
-
-    print("입력한 역이름 :"+stationName)
-    for e in SNList:
-        #print("e = "+str(e))
-        #print("stationName="+stationName+" line_number="+line_number+" direction="+direction)
-        if stationName in e:
-            #print("리스트에 있음")
-            #print("리스트 길이 : "+str(len(SNList)))
-            for i in range(0, len(SNList)):
-                #print(str(i)+"번째 리스트 내용 :"+str(SNList[i]))
-                if stationName in SNList[i]:
-                    option = SNList[i]
-                    #print("option = "+str(option))
-    print("선택사항 : "+str(option))
-
-    return option
+# def get_option(stationName):
+#
+#     SNList = [["반포역", "신반포역", "구반포역"], ["논현역", "신논현역"]]
+#
+#     print("입력한 역이름 :"+stationName)
+#     for e in SNList:
+#         #print("e = "+str(e))
+#         #print("stationName="+stationName+" line_number="+line_number+" direction="+direction)
+#         if stationName in e:
+#             #print("리스트에 있음")
+#             #print("리스트 길이 : "+str(len(SNList)))
+#             for i in range(0, len(SNList)):
+#                 #print(str(i)+"번째 리스트 내용 :"+str(SNList[i]))
+#                 if stationName in SNList[i]:
+#                     option = SNList[i]
+#                     #print("option = "+str(option))
+#     print("선택사항 : "+str(option))
+#
+#     return option
