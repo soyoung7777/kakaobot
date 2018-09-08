@@ -73,7 +73,7 @@ def message(request):
     DB = allData.objects.get(pk=user_id)
     print("DB check : " + str(DB.session_id))
 
-
+    DB.dialogflow_action=0
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
