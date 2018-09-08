@@ -210,6 +210,7 @@ def message(request):
             elif subway_return[0] == 2 :#해당 역에 호선이 여러개 있는 경우
                 print("subway action1")
                 DB.subway_action = 1
+                DB.subway_station_name = data['result']['parameters']['subway_station']
                 DB.subway_station_result =subway_return[2]
                 text = subway_return[1]
                 # DB.bus_station_result = bus_return[2]
@@ -270,12 +271,13 @@ def message(request):
         #data['result']['parameters']['line_number']])
 
         #if Exist:
-        res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+        res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
 
         DB.dialogflow_action = 0
         DB.subway_action = 0
         DB.subway_selected = ""
+        DB.subway_station_name=""
         DB.save()
 
         return JsonResponse({
