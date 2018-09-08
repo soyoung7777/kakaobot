@@ -183,18 +183,20 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
+        print("Intent : Subway_station_and_number")
         if DB.subway_action == 0 :
-            print("action 0")
+            print("subway action 0")
             subway_return = SubwayInfo.get_subway_station(data)
 
             if subway_return[0] == 1 :
+                print("subway action 2")
                 DB.subway_selected = str(subway_return[2][0])
                 DB.subway_stationid = str(subway_return[3])
                 DB.subway_action = 2
                 DB.save()
 
             elif subway_return[0] == 2 :
-                print("action1")
+                print("subway action 1")
                 DB.subway_action = 1
                 text = subway_return[1]
                 DB.subway_stationid = subway_return[3]
