@@ -241,7 +241,7 @@ def message(request):
         #     res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
         if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
             res = SubwayInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['line_number']])
-
+        print(res)
         DB.dialogflow_action = 0
         DB.subway_action = 0
         DB.subway_stationid = ""
