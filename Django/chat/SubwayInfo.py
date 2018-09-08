@@ -2,6 +2,7 @@
 import json
 import urllib.request
 import urllib.parse
+import ast
 from operator import eq
 
 subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수도권 3호선"],[1004, "수도권 4호선"],[1005, "수도권 5호선"]
@@ -49,6 +50,8 @@ def get_subway_station_and_number_information(subwayData):
 
     station_info = data['result']['station']
     current_stationID = 0
+
+    subwayData[1] = ast.literal_eval(subwayData[1])
     print("stationName : "+subwayData[0])
     print("station Dictionary : "+subwayData[1])
     print("station Dictionary type: "+str(type(subwayData[1])))
