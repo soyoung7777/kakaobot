@@ -93,10 +93,18 @@ def get_bus_station_information(busData):
         for bus in mbody.iter("itemList"):
             tmp['msg1'] =  bus.find("arrmsg1").text
             tmp['msg2'] =  bus.find("arrmsg2").text
-            tmp['stationNm1'] = bus.find("stationNm1").text
-            tmp['stationNm2'] = bus.find("stationNm2").text
             tmp['adr'] =  bus.find("adirection").text
-            tmp['b'] = bus.find("nxtStn").text
+            tmp['nxtStn'] = bus.find("nxtStn").text
+            stNm1 = bus.find("stationNm1")
+            stNm2 = bus.find("stationNm2")
+            if stNm1 is None:
+                tmp['stNm1'] = bus.find("stNm").text
+            else:
+                tmp['stNm1'] = stNm1.text
+            if stNm2 is None:
+                tmp['stNm2'] = bus.find("stNm").text
+            else:
+                tmp['stNm2'] = stNm2.text
             busNo = bus.find("rtNm").text
             busListo[busNo] = tmp
             #print(busList[stationNm1]+ " " + busList[stationNm2])
@@ -106,7 +114,7 @@ def get_bus_station_information(busData):
         for i in range(0,len(busList.keys())):
             bus_no = list(busList.keys())[i]
             text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No]+"\n"
-            
+
         text += "\n"
 
     return text
@@ -133,19 +141,28 @@ def get_bus_station_and_number_information(busData) :
         root = res_tree.getroot()
         mbody = root.find("msgBody")
 
-        busList = tree()
-        busNo = "0"
+        busList = {}
+        tmp = {}
         for bus in mbody.iter("itemList"):
+            tmp['msg1'] =  bus.find("arrmsg1").text
+            tmp['msg2'] =  bus.find("arrmsg2").text
+            tmp['adr'] =  bus.find("adirection").text
+            tmp['nxtStn'] = bus.find("nxtStn").text
+            stNm1 = bus.find("stationNm1")
+            stNm2 = bus.find("stationNm2")
+            if stNm1 is None:
+                tmp['stNm1'] = bus.find("stNm").text
+            else:
+                tmp['stNm1'] = stNm1.text
+            if stNm2 is None:
+                tmp['stNm2'] = bus.find("stNm").text
+            else:
+                tmp['stNm2'] = stNm2.text
             busNo = bus.find("rtNm").text
-            busList[busNo]['msg1'] =  bus.find("arrmsg1").text
-            busList[busNo]['msg2'] =  bus.find("arrmsg2").text
-            #busList[busNo]['stationNm1'] = bus.find("stationNm1").text
-            #busList[busNo]['stationNm2'] = bus.find("stationNm2").text
+            busListo[busNo] = tmp
             #busList[busNo]['congetion1'] = bus.find("congetion1").text
             #busList[busNo]['congetion2'] = bus.find("congetion2").text
-            busList[busNo]['adr'] =  bus.find("adirection").text
-            busList[busNo]['busNxt'] = bus.find("nxtStn").text
-            print(busList[stationNm1]+ " " + busList[stationNm2])
+            #print(busList[stationNm1]+ " " + busList[stationNm2])
 
 
 
