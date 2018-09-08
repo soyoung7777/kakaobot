@@ -198,6 +198,7 @@ def message(request):
             'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
             })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
+        DB.subway_action = 0
         if DB.subway_action == 0 :
             print("action 0")
             subway_return = SubwayInfo.get_subway_station(data)
