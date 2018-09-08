@@ -230,10 +230,10 @@ def message(request):
         })
 
 
-    return JsonResponse({
-        'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
-        'keyboard':{'type':'text'}
-    })
+    # return JsonResponse({
+    #     'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
+    #     'keyboard':{'type':'text'}
+    # })
 
     if DB.subway_action == 2 :
         print("action2")
