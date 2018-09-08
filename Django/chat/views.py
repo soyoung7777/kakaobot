@@ -264,12 +264,13 @@ def message(request):
         })
 
     if DB.subway_action == 2 :
+        print("subway action 2")
         #Exist = SubwayInfo.config_exist_subway_station_and_number([data['result']['parameters']['subway_station'],
         #data['result']['parameters']['line_number']])
 
         #if Exist:
         res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
-        data['result']['parameters']['line_number']])
+        DB.subway_selected)
 
         DB.dialogflow_action = 0
         DB.subway_action = 0
