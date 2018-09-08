@@ -70,7 +70,8 @@ def get_subway_station_and_number_information(subwayData):
     text=""
     canUse = True
     StationExistList=[]
-
+    StationNameList=[]
+    StationExistNameList = []
     for idx, get_stationID in enumerate(stationID):
         new_stationName = getStationName(get_stationID)
         if new_stationName == "none":
@@ -85,7 +86,7 @@ def get_subway_station_and_number_information(subwayData):
             continue
         else:
             StationExistList.append(num)
-
+    print("station Exist List : "+str(StationExistList))
     if canUse:
         StationExistNameList = []
         #if eq(direction,"상행") or eq(direction,"내선"):
@@ -100,7 +101,8 @@ def get_subway_station_and_number_information(subwayData):
             StationExistNameList.append(getStationName(current_stationID-n+6))
             # if eq(direction,"하행") or eq(direction,"외선"):
             #     StationExistNameList.append(getStationName(current_stationID-n))
-
+        print("stationNameList : "+str(StationNameList))
+        print("stationExistNameList : "+str(StationExistNameList))
         count_end = 0#종점인지 체크하는 변수
         text +="💌["+stationName+" "+line_number+"상행선 정보입니다]💌\n"
         for total in StationNameList:
@@ -128,7 +130,10 @@ def get_subway_station_and_number_information(subwayData):
     stationID = [current_stationID,current_stationID-2, current_stationID-4]
 
     canUse = True
+
     StationExistList=[]
+    StationNameList=[]
+    StationExistNameList = []
 
     for idx, get_stationID in enumerate(stationID):
         new_stationName = getStationName(get_stationID)
@@ -145,6 +150,7 @@ def get_subway_station_and_number_information(subwayData):
         else:
             StationExistList.append(num)
 
+    print("station Exist List : "+str(StationExistList))
     if canUse:
         StationExistNameList = []
         #if eq(direction,"상행") or eq(direction,"내선"):
@@ -160,6 +166,8 @@ def get_subway_station_and_number_information(subwayData):
             # if eq(direction,"하행") or eq(direction,"외선"):
             StationExistNameList.append(getStationName(current_stationID-n))
 
+        print("stationNameList : "+str(StationNameList))
+        print("stationExistNameList : "+str(StationExistNameList))
         count_end = 0#종점인지 체크하는 변수
         text +="💌["+stationName+" "+line_number+"하행선 정보입니다]💌\n"
         for total in StationNameList:
