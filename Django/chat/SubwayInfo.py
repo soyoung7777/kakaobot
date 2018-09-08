@@ -179,7 +179,7 @@ def get_subway_station_and_number_information(subwayData):
 
 
 def getStationInfo(myStationName):
-    myKey = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+    myKey = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encKey = urllib.parse.quote_plus(myKey)
     encStationname = urllib.parse.quote_plus(myStationName)
     odUrl = "https://api.odsay.com/v1/api/searchStation?lang=0&stationName="+encStationname+"&stationClass=2&apiKey="+encKey
@@ -191,7 +191,7 @@ def getStationInfo(myStationName):
     return data
 
 def getStationName(stationID):
-    myKey = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+    myKey = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encKey = urllib.parse.quote_plus(myKey)
     encStationID = urllib.parse.quote_plus(str(stationID))
     odUrl = "https://api.odsay.com/v1/api/subwayStationInfo?lang=0&stationID="+encStationID+"&apiKey="+encKey
