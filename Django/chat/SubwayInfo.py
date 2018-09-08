@@ -91,7 +91,8 @@ def get_subway_station_and_number_information(subwayData):
     station_info = data['result']['station']
     current_stationID = 0
 
-    # print("stationName : "+subwayData[0])
+    print("stationName : "+subwayData[0])
+    print(json.loads(json.dumps(data)))
     # print("station Dictionary : "+str(subwayData[1]))
     # print("station Dictionary type: "+str(type(subwayData[1])))
     # print("station ID : "+str(subwayData[1][subwayData[0]]))
