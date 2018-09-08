@@ -88,6 +88,8 @@ def get_subway_station_and_number_information(subwayData):
     stationName = subwayData[0]
     print("stationName : "+subwayData[0])
     print("lineNumber : "+subwayData[1])
+    print("lineNumber type: "+str(type(subwayData[1])))
+
     data = getStationInfo(stationName)
 
     station_info = data['result']['station']

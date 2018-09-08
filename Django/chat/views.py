@@ -72,7 +72,7 @@ def message(request):
 
     DB = allData.objects.get(pk=user_id)
     print("DB check : " + str(DB.session_id))
-    #DB.dialogflow_action = 0
+    DB.dialogflow_action = 0
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
@@ -197,7 +197,7 @@ def message(request):
             })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
         print("Intent : Subway_station")
-        #DB.subway_action=0
+        DB.subway_action=0
         if DB.subway_action == 0 :
             print("action 0")
             subway_return = SubwayInfo.get_subway_station(data)
@@ -274,7 +274,7 @@ def message(request):
 
         #if Exist:
         line_number = DB.subway_selected
-        line_number = line_number.replace('수도권',"")
+        line_number = line_number.replace(u'수도권',"")
         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
 
