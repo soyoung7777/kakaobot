@@ -122,18 +122,18 @@ def message(request):
                 DB.dialogflow_action = 0
                 DB.save()
 
-        # if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
-        #     if DB.subway_action == 1 :
-        #         tmp_list = DB.subway_station_result
-        #         tmp_list = tmp_list.replace('[',"")
-        #         tmp_list = tmp_list.replace(']',"")
-        #         tmp_list = tmp_list.replace(' ',"")
-        #         bus_station_result = tmp_list.split(',')
-        #         DB.subway_selected = subway_station_result[int(msg_str)-1]
-        #         print(DB.subway_selected)
-        #         DB.subway_action = 2
-        #         DB.dialogflow_action = 0
-        #         DB.save()
+        if eq(str(data['result']['metadata']['intentName']),"Subway_station") :
+            if DB.subway_action == 1 :
+                tmp_list = DB.subway_station_result
+                tmp_list = tmp_list.replace('[',"")
+                tmp_list = tmp_list.replace(']',"")
+                tmp_list = tmp_list.replace(' ',"")
+                subway_station_result = tmp_list.split(',')
+                DB.subway_selected = subway_station_result[int(msg_str)-1]
+                print(DB.subway_selected)
+                DB.subway_action = 2
+                DB.dialogflow_action = 0
+                DB.save()
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
@@ -197,6 +197,27 @@ def message(request):
             return JsonResponse({
             'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
             })
+    if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
+        if DB.subway_action == 0 :
+            print("action 0")
+            subway_return = SubwayInfo.get_subway_station(data)
+
+            if subway_return[0] == 1 :#해당 역에 호선이 1개만 있는 경우
+                DB.subway_selected = str(subway_return[2][0])
+                DB.subway_action = 2
+                DB.save()
+
+            elif subway_return[0] == 2 :#해당 역에 호선이 여러개 있는 경우
+                print("subway action1")
+                DB.subway_action = 1
+                text = subway_return[1]
+                # DB.bus_station_result = bus_return[2]
+                DB.dialogflow_action = 1
+                DB.save()
+
+                return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                })
         #print("subway action : "+str(DB.subway_action))
         #DB.subway_action = 0
         #if DB.subway_action == 0 :
@@ -242,6 +263,22 @@ def message(request):
         'message': {'text': res},
         })
 
+    if DB.subway_action == 2 :
+        #Exist = SubwayInfo.config_exist_subway_station_and_number([data['result']['parameters']['subway_station'],
+        #data['result']['parameters']['line_number']])
+
+        #if Exist:
+        res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+        data['result']['parameters']['line_number']])
+
+        DB.dialogflow_action = 0
+        DB.subway_action = 0
+        DB.subway_selected = ""
+        DB.save()
+
+        return JsonResponse({
+        'message': {'text': res},
+        })
 
     # return JsonResponse({
     #     'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},

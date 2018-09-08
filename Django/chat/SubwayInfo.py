@@ -10,7 +10,36 @@ subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수�
 ,[1006, "수도권 6호선"],[1007, "수도권 7호선"],[1008, "수도권 8호선"],[1009, "수도권 9호선"],[1065,"수도권 공항철도"],[1071,"수도권 수인선"],[1075,"수도권 분당선"]
 ,[1075,"수도권 분당선"],[1063,"경의중앙선"],[1067,"수도권 경춘선"],[1077,"수도권 신분당선"],[1077,"수도권 신분당선"]]
 
-# def get_subway_station(json_Data):
+def get_subway_station(json_Data):
+    searchST = str(json_Data['result']['parameters']['subway_station'])
+    print("searchST " + searchST)
+    res = ""
+    ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
+    encMy = urllib.parse.quote_plus(my)
+    encST = urllib.parse.quote_plus(searchST)
+
+    odUrl = "https://api.odsay.com/v1/api/searchStation?lang=0&stationName="+encST+"&CID=1000&stationClass=2&apiKey="+encMy
+
+    request = urllib.request.Request(odUrl)
+    response = urllib.request.urlopen(request)
+
+    json_rt = response.read().decode('utf-8')
+    st = json.loads(json_rt)
+
+    subway_station_list = []
+    for i in range(0,len(st['result']['station'])):
+        if st['result']['station'][i]['stationName'] == searchST:
+            subway_station_list.append(st['result']['station'][i]['laneName'])
+
+    if len(subway_station_list) == 1 :
+        return [1,res,subway_station_list]
+
+    else :
+        res += "🤔 호선을 선택해 주세요. 🤗" + "\n"
+        for idx, line_number in enumerate(subway_station_list):
+            res += str(idx+1) +". " + line_number + "\n"
+        return [2,res,subway_station_list]
 #
 #     res = ""
 #     duplicate = False
@@ -50,6 +79,7 @@ def config_exist_subway_station_and_number(subwayData):
         if subwayData[1] in info['laneName'] and stationName in info['stationName']:
             Exist = True
     return Exist
+
 def get_subway_station_and_number_information(subwayData):
 #     option = get_option(stationName)
 #
