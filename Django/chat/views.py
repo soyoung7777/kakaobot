@@ -240,13 +240,13 @@ def message(request):
         # if eq(str(data['result']['metadata']['intentName']),"Bus_station") :
         #     res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
         if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
-            res = BusInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['line_number']])
+            res = SubwayInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['line_number']])
 
         DB.dialogflow_action = 0
-        DB.bus_action = 0
-        DB.bus_arsid = ""
-        DB.bus_selected = ""
-        DB.bus_station_result = ""
+        DB.subway_action = 0
+        DB.subway_stationid = ""
+        DB.subway_selected = ""
+        DB.subway_station_result = ""
         DB.jsondata = ""
         DB.save()
 
