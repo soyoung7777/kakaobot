@@ -185,7 +185,7 @@ def message(request):
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
         res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
-        ,data['result']['parameters']['line_number']])
+        data['result']['parameters']['line_number']])
         return JsonResponse({
         'message': {'text': res},
         })
