@@ -93,7 +93,6 @@ def message(request):
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
     print(data)
     DB.dialogflow_action = 0
-    DB.subway_action = 0
     if DB.dialogflow_action == 1 :
         print("dialogflow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
@@ -199,11 +198,14 @@ def message(request):
             })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
         print("Intent : Subway_station")
+        DB.subway_action = 0
+
         if DB.subway_action == 0 :
             print("action 0")
             subway_return = SubwayInfo.get_subway_station(data)
 
             if subway_return[0] == 1 :#해당 역에 호선이 1개만 있는 경우
+                print("subway action2")
                 DB.subway_selected = str(subway_return[2][0])
                 DB.subway_action = 2
                 DB.save()
