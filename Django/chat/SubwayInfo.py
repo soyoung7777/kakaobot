@@ -3,6 +3,7 @@ import json
 import urllib.request
 import urllib.parse
 import ast
+import re
 from operator import eq
 
 subwayID = [[1001, "수도권 1호선"],[1002, "수도권 2호선"],[1003, "수도권 3호선"],[1004, "수도권 4호선"],[1005, "수도권 5호선"]
