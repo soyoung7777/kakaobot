@@ -51,11 +51,11 @@ def get_subway_station_and_number_information(subwayData):
     station_info = data['result']['station']
     current_stationID = 0
 
-    subwayData[1] = ast.literal_eval(subwayData[1])
-    print("stationName : "+subwayData[0])
-    print("station Dictionary : "+str(subwayData[1]))
-    print("station Dictionary type: "+str(type(subwayData[1])))
-    print("station ID : "+str(subwayData[1][subwayData[0]]))
+    subwayData[1] = ast.literal_eval(subwayData[1])#string to dict
+    # print("stationName : "+subwayData[0])
+    # print("station Dictionary : "+str(subwayData[1]))
+    # print("station Dictionary type: "+str(type(subwayData[1])))
+    # print("station ID : "+str(subwayData[1][subwayData[0]]))
     for idx, info in enumerate(station_info):
         if subwayData[2] in info['laneName']:
             current_stationID = int(subwayData[1][subwayData[0]])
@@ -63,8 +63,8 @@ def get_subway_station_and_number_information(subwayData):
 
     #if eq(direction,"상행") or eq(direction,"내선"):
     #상행일 때
+    direction = "상행"
     stationID = [current_stationID+4,current_stationID+2, current_stationID]
-
     text=""
     canUse = True
     StationExistList=[]
@@ -122,6 +122,7 @@ def get_subway_station_and_number_information(subwayData):
             text +="종점인데 어딜가시려구요?👀\n"
 
     #하행일때
+    direction = "하행"
     stationID = [current_stationID,current_stationID-2, current_stationID-4]
 
     text=""
