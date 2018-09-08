@@ -116,11 +116,13 @@ def get_subway_station_and_number_information(subwayData):
     StationExistNameList = []
     for idx, get_stationID in enumerate(stationID):
         new_stationName = getStationName(get_stationID)
-        if new_stationName == "none":
-            continue
+        if eq(new_stationName,"error"):
+            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            canUse = False
+            break
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
-        if eq(num,"error") or eq(new_stationName,"error"):
+        if eq(num,"error"):
             text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
             canUse = False
             break
@@ -181,9 +183,13 @@ def get_subway_station_and_number_information(subwayData):
         new_stationName = getStationName(get_stationID)
         if new_stationName == "none":
             continue
+        if eq(new_stationName,"error"):
+            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            canUse = False
+            break
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
-        if eq(num,"error") or eq(new_stationName,"error"):
+        if eq(num,"error"):
             text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
             canUse = False
             break
