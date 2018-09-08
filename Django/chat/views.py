@@ -184,11 +184,19 @@ def message(request):
                 })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
-        res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+        Exist = SubwayInfo.config_exist_subway_station_and_number([data['result']['parameters']['subway_station'],
         data['result']['parameters']['line_number']])
-        return JsonResponse({
-        'message': {'text': res},
-        })
+
+        if Exist:
+            res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+            data['result']['parameters']['line_number']])
+            return JsonResponse({
+            'message': {'text': res},
+            })
+        else:
+            return JsonResponse({
+            'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
+            })
         #print("subway action : "+str(DB.subway_action))
         #DB.subway_action = 0
         #if DB.subway_action == 0 :
