@@ -251,7 +251,7 @@ def getStationResult(cID, stationID, stationName, idx, current_laneName,directio
                     info_str2 = info_str[2]
                     info_str2 = info_str2[1:len(info_str2)-1]
 
-                    new_data = ODUrl_use("info",info_str2)
+                    new_data = getStationInfo(info_str2)
                     new_station_info = new_data['result']['station']
                     new_stationID = 0
 
@@ -270,8 +270,7 @@ def getStationResult(cID, stationID, stationName, idx, current_laneName,directio
                             my_str2 = my_str[idx]
 
                     my_str2 = my_str2[1:len(my_str2)-1]
-
-                    new_data = ODUrl_use("info",my_str2)
+                    new_data = getStationInfo(my_str2)
                     new_station_info = new_data['result']['station']
                     new_stationID = 0
 
