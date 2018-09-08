@@ -120,7 +120,7 @@ def get_subway_station_and_number_information(subwayData):
             continue
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
-        if eq(num,"error"):
+        if eq(num,"error") or eq(new_stationName,"error"):
             text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
             canUse = False
             break
@@ -183,7 +183,7 @@ def get_subway_station_and_number_information(subwayData):
             continue
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
-        if eq(num,"error"):
+        if eq(num,"error") or eq(new_stationName,"error"):
             text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
             canUse = False
             break
@@ -260,7 +260,10 @@ def getStationName(stationID):
 
     od_json = response.read().decode('utf-8')
     od_data = json.loads(od_json)
-    stationName = od_data['result']['stationName']
+    try:
+        stationName = od_data['result']['stationName']
+    except KeyError:
+        return "error"
     return stationName
 
 def getStationResult(cID, stationID, stationName, idx, current_laneName,direction,line_number): #예:서울역 수도권 4호선 426
