@@ -73,7 +73,6 @@ def message(request):
     DB = allData.objects.get(pk=user_id)
     print("DB check : " + str(DB.session_id))
 
-    DB.dialogflow_action=0
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
@@ -198,7 +197,6 @@ def message(request):
             'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
             })
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
-        DB.subway_action = 0
         if DB.subway_action == 0 :
             print("action 0")
             subway_return = SubwayInfo.get_subway_station(data)
