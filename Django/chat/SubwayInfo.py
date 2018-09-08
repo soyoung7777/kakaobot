@@ -27,6 +27,7 @@ def get_subway_station(json_Data):
 
     if duplicate == False:
         data = getStationInfo(stationName)
+        print(data)
         subway_station_dic[stationName] = int(data['result']['station'][0]['stationID'])
 
     if len(subway_station_dic.keys()) == 1:
