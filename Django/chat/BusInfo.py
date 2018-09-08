@@ -4,7 +4,6 @@ import json
 import xml.etree.ElementTree as ET
 from operator import eq
 import ast
-import collections
 
 bus_ars_id = {}
 
@@ -89,28 +88,26 @@ def get_bus_station_information(busData):
         root = res_tree.getroot()
         mbody = root.find("msgBody")
 
-        busList = tree()
-        busNo = "0"
+        busList = {}
+        tmp = {}
         for bus in mbody.iter("itemList"):
+            tmp['msg1'] =  bus.find("arrmsg1").text
+            tmp['msg2'] =  bus.find("arrmsg2").text
+            tmp['stationNm1'] = bus.find("stationNm1").text
+            tmp['stationNm2'] = bus.find("stationNm2").text
+            tmp['adr'] =  bus.find("adirection").text
+            tmp['b'] = bus.find("nxtStn").text
             busNo = bus.find("rtNm").text
-            busList[busNo]['msg1'] =  bus.find("arrmsg1").text
-            busList[busNo]['msg2'] =  bus.find("arrmsg2").text
-            #busList[busNo]['stationNm1'] = bus.find("stationNm1").text
-            #busList[busNo]['stationNm2'] = bus.find("stationNm2").text
-            busList[busNo]['adr'] =  bus.find("adirection").text
-            busList[busNo]['busNxt'] = bus.find("nxtStn").text
+            busListo[busNo] = tmp
             #print(busList[stationNm1]+ " " + busList[stationNm2])
 
-        text += json.dumps(busList,indent=1)
 
-        # text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
-        # for i in range(0, bcnt):
-        #     bus_msg1 = "msg1_c"+str(i)
-        #     bus_msg2 = "msg2_c"+str(i)
-        #     bus_adr = "adr_c"+str(i)
-        #     bus_No = "busNo_c"+str(i)
-        #     text += "🚌 " + busList[bus_No] + " 👉🏿 "+busList[bus_msg1]+"\n"
-        # text += "\n"
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
+        for i in range(0,len(busList.keys())):
+            bus_no = list(busList.keys())[i]
+            text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No]+"\n"
+            
+        text += "\n"
 
     return text
 
@@ -150,12 +147,8 @@ def get_bus_station_and_number_information(busData) :
             busList[busNo]['busNxt'] = bus.find("nxtStn").text
             print(busList[stationNm1]+ " " + busList[stationNm2])
 
-    print("\n\n=>\n")
-    print(json.dumps(busList,indent=1))
 
 
-def tree():
-    return collections.defaultdict(tree)
 
 
 
