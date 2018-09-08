@@ -49,7 +49,7 @@ def get_subway_station_and_number_information(subwayData):
 
     station_info = data['result']['station']
     current_stationID = 0
-
+    print("station ID : "+subwayData[1][subwayData[0]])
     for idx, info in enumerate(station_info):
         if subwayData[2] in info['laneName']:
             current_stationID = int(subwayData[1][subwayData[0]])
