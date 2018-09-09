@@ -88,6 +88,7 @@ def message(request):
                     'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
             else:
+                data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
                 if eq(str(data['result']['metadata']['intentName']),"PathFind"):
                     start = str(data['result']['parameters']['all_from'])
                     end = str(data['result']['parameters']['all_to'])
