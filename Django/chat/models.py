@@ -16,7 +16,7 @@ class allData(models.Model):
 	subway_stationid = models.TextField(default={})
 	subway_station_name = models.TextField(default="")
 	diff_path = models.IntegerField(default=0)
-	limit_time = models.TimeField(default="")
+	limit_time = models.FloatField(default=0)
 
 
 	def __str__(self):
