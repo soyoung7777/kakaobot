@@ -86,6 +86,10 @@ def get_subway_station_and_number_information(subwayData):
 #     stationName = "서울역"
     #stationName = str(json_Data['result']['parameters']['subway_station'])
     stationName = subwayData[0]
+    print("lineNumber : "+subwayData[1])
+    print("lineNumber type: "+str(type(subwayData[1])))
+    subwayData[1] = re.sub('\'',"",subwayData[1])
+    subwayData[1] = re.sub('수도권 ',"",subwayData[1])
     print("stationName : "+subwayData[0])
     print("lineNumber : "+subwayData[1])
     print("lineNumber type: "+str(type(subwayData[1])))
