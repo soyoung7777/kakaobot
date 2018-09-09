@@ -78,7 +78,7 @@ def message(request):
 
     #다른경로
     if DB.diff_path is not 0:
-        cur_time = time.time()
+        cur_time = str(time.time())
         if eq(msg_str,"Y") or eq(msg_str,"y") or eq(msg_str,"ㅇ") or eq(msg_str,"응") or eq(msg_str,"어"):
             if cur_time > DB.limit_time:
                 text =  "시간이 지났어요!!\n다시 경로를 찾아주세요"
