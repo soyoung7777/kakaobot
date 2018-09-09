@@ -128,13 +128,13 @@ def get_subway_station_and_number_information(subwayData):
         print("line_number : "+line_number)
         new_stationName = getStationName(get_stationID)
         if eq(new_stationName,"error"):
-            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            text="공공데이터에 문제가 생겼어요😂😂\n10초 뒤에 다시 이용해주시겠어요?\n꼭 다시 오셔야해요❤"
             canUse = False
             break
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
         if eq(num,"error"):
-            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            text="공공데이터에 문제가 생겼어요😂😂\n10초 뒤에 다시 이용해주시겠어요?\n꼭 다시 오셔야해요❤"
             canUse = False
             break
         elif eq(num,"none"):
@@ -202,7 +202,7 @@ def get_subway_station_and_number_information(subwayData):
         if new_stationName == "none":
             continue
         if eq(new_stationName,"error"):
-            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            text="공공데이터에 문제가 생겼어요😂😂\n10초 뒤에 다시 이용해주시겠어요?\n꼭 다시 오셔야해요❤"
             canUse = False
             break
 
