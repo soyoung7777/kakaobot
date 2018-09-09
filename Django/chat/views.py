@@ -72,8 +72,8 @@ def message(request):
 
     DB = allData.objects.get(pk=user_id)
     print("DB check : " + str(DB.session_id))
-    #DB.dialogflow_action = 0
-    #DB.subway_action=0
+    DB.dialogflow_action = 0
+    DB.subway_action=0
 
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
@@ -275,8 +275,8 @@ def message(request):
 
         #if Exist:
         line_number = DB.subway_selected
-        line_number = line_number.replace('\'',"")
-        line_number = line_number.replace('수도권',"")
+        line_number = re.sub('\'',"",line_number)
+        line_number = re.sub('수도권 ',"",line_number)
         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
 
