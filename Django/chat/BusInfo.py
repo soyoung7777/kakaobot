@@ -159,7 +159,14 @@ def get_bus_station_and_number_information(busData) :
             else:
                 tmp['stNm2'] = stNm2.text
             busNo = bus.find("rtNm").text
-            busListo[busNo] = tmp
+            busList[busNo] = tmp
+
+            if eq(busNo,bus_number) :
+                print("match!!!!")
+
+            
+
+
             #busList[busNo]['congetion1'] = bus.find("congetion1").text
             #busList[busNo]['congetion2'] = bus.find("congetion2").text
             #print(busList[stationNm1]+ " " + busList[stationNm2])
