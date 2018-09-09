@@ -50,7 +50,7 @@ def get_result(start, end, tsType, pNum):
 		ey = str(e_json['results'][0]['geometry']['location']['lat'])
 
 
-		my = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+		my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
 		encMy = urllib.parse.quote_plus(my)
 
 		if eq(tsType, "지하철"):
