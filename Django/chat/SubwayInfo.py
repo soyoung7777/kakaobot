@@ -355,7 +355,9 @@ def getStationResult(cID, stationID, stationName, idx, current_laneName,directio
                 else:
                     return idx
         return "none"
-    except urllib.error.HTTPError or KeyError:
+    except urllib.error.HTTPError:
+        return "error"
+    except KeyError:
         return "error"
 
 # def get_subway_line(subway_station):
