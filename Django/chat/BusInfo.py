@@ -37,7 +37,7 @@ def get_bus_station(json_Data):
         return [1,res,list(bus_station_dic.keys()),bus_station_dic]
 
     else :
-        res += "🤔 정류장을 선택해 주세요. 🤗" + "\n(올바른 숫자를 입력하는 센스!)\n"
+        res += "🤔 정류장을 선택해 주세요. 🤗" + "\n(올바른 숫자를 입력하는 센스!)\n\n"
         for i in range(0,len(bus_station_dic.keys())):
             res += str(i+1) +". " + list(bus_station_dic.keys())[i] + "\n"
         return [2,res,list(bus_station_dic.keys()),bus_station_dic]
