@@ -27,7 +27,7 @@ def bus(busPath):
 
 def getNormalPath(sx, sy, ex, ey):
 
-	myKey = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+	myKey = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
 	encKey = urllib.parse.quote_plus(myKey)
 
 	odUrl = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&apiKey="+encKey
