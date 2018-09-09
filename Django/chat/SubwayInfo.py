@@ -159,7 +159,7 @@ def get_subway_station_and_number_information(subwayData):
         print("stationNameList : "+str(StationNameList))
         print("stationExistNameList : "+str(StationExistNameList))
         count_end = 0#종점인지 체크하는 변수
-        text +="💌["+stationName+" "+line_number+"상행선 정보입니다]💌\n"
+        text +="💌["+stationName+" "+line_number+" 상행선 정보입니다]💌\n"
         for total in StationNameList:
             exist = False
             for element in StationExistNameList:
@@ -191,13 +191,13 @@ def get_subway_station_and_number_information(subwayData):
     StationExistNameList = []
 
     for idx, get_stationID in enumerate(stationID):
-        print("=======getStationResult INFO=======")
-        print("current_stationID : "+str(current_stationID))
-        print("get_stationID : "+str(get_stationID))
-        print("idx*2 : "+str(idx*2))
-        print("current_laneName : "+str(current_laneName))
-        print("direction : "+direction)
-        print("line_number : "+line_number)
+        # print("=======getStationResult INFO=======")
+        # print("current_stationID : "+str(current_stationID))
+        # print("get_stationID : "+str(get_stationID))
+        # print("idx*2 : "+str(idx*2))
+        # print("current_laneName : "+str(current_laneName))
+        # print("direction : "+direction)
+        # print("line_number : "+line_number)
         new_stationName = getStationName(get_stationID)
         if new_stationName == "none":
             continue
@@ -209,7 +209,7 @@ def get_subway_station_and_number_information(subwayData):
         num = getStationResult(current_stationID,get_stationID,new_stationName, idx*2,current_laneName,direction,line_number)
 
         if eq(num,"error"):
-            text="현재 이용 불가 10초 뒤에 다시 이용해주세요"
+            text="공공데이터에 문제가 생겼어요😂😂\n10초 뒤에 다시 이용해주시겠어요?\n꼭 다시 오셔야해요❤"
             canUse = False
             break
         elif eq(num,"none"):
@@ -236,7 +236,7 @@ def get_subway_station_and_number_information(subwayData):
         print("stationNameList : "+str(StationNameList))
         print("stationExistNameList : "+str(StationExistNameList))
         count_end = 0#종점인지 체크하는 변수
-        text +="\n\n💌["+stationName+" "+line_number+"하행선 정보입니다]💌\n"
+        text +="\n\n💌["+stationName+" "+line_number+" 하행선 정보입니다]💌\n"
         for total in StationNameList:
             exist = False
             for element in StationExistNameList:
