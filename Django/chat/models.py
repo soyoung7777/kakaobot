@@ -15,6 +15,8 @@ class allData(models.Model):
 	subway_selected = models.TextField(max_length=128,default="")
 	subway_stationid = models.TextField(default={})
 	subway_station_name = models.TextField(default="")
+	diff_path = models.IntegerField(default=0)
+	limit_time = models.TextField(default="")
 
 
 	def __str__(self):

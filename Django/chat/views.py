@@ -76,6 +76,33 @@ def message(request):
     # DB.dialogflow_action = 0
     # DB.subway_action=0
 
+    #다른경로
+    if DB.diff_path is not 0:
+        cur_time = time.time()
+        if eq(msg_str,"Y") or eq(msg_str,"y") or eq(msg_str,"ㅇ") or eq(msg_str,"응") or eq(msg_str,"어"):
+            if cur_time > limit_time:
+                text =  "시간이 지났어요!!\n다시 경로를 찾아주세요"
+                DB.diff_path = 0
+                DB.save()
+                return JsonResponse({
+                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                })
+            else:
+                if eq(str(data['result']['metadata']['intentName']),"PathFind"):
+                    start = str(data['result']['parameters']['all_from'])
+                    end = str(data['result']['parameters']['all_to'])
+                    text = pathPrint.get_result(start, end, '', DB.diff_path)
+
+                    if not eq(text[0],"더"):
+                        DB.diff_path += 1
+                        DB.limit_time = time.time() + 10
+                        DB.save()
+
+                    return JsonResponse({
+                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                    })
+
+
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
@@ -96,7 +123,7 @@ def message(request):
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
     print(data)
     if DB.dialogflow_action == 1 :
-        print("dialogflow action = 1")
+        print("dialogif flow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
                 tmp_list = DB.bus_station_result
@@ -134,6 +161,35 @@ def message(request):
                 DB.subway_action = 2
                 DB.dialogflow_action = 0
                 DB.save()
+    #if(dialogflow_action == 1)문 종료
+
+    if eq(str(data['result']['metadata']['intentName']),"PathFind"):
+        start = str(data['result']['parameters']['all_from'])
+        end = str(data['result']['parameters']['all_to'])
+        text = pathPrint.get_result(start, end, '', DB.diff_path)
+
+        if not eq(text[0],"더"):
+            DB.diff_path += 1
+            DB.limit_time = time.time() + 10
+            DB.save()
+
+        return JsonResponse({
+        'message': {'text': "!!!\n"+text+"\n\n!!!"},
+        })
+
+
+    if eq(str(data['result']['metadata']['intentName']),"PathFind_transportation"):
+            start = str(data['result']['parameters']['all_from'])
+            end = str(data['result']['parameters']['all_to'])
+            tsType = str(data['result']['parameters']['transportation'])
+            if eq(tsType,"지하철") or eq(tsType,"버스"):
+                text = pathPrint.get_result(start, end, tsType, pNum)
+            elif eq(tsType,"고속버스") or eq(tsType,"시외버스"):
+                text = anotherPathPrint.get_result(start, end, tsType)
+
+            return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            })
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
@@ -182,6 +238,7 @@ def message(request):
                 return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
+
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
         Exist = SubwayInfo.config_exist_subway_station_and_number([data['result']['parameters']['subway_station'],
@@ -197,6 +254,7 @@ def message(request):
             return JsonResponse({
             'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
             })
+
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
         print("Intent : Subway_station")
         print("subway action : "+str(DB.subway_action))
@@ -289,67 +347,8 @@ def message(request):
         'message': {'text': res},
         })
 
-    # return JsonResponse({
-    #     'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
-    #     'keyboard':{'type':'text'}
-    # })
-
-    # if DB.subway_action == 2 :
-    #     print("action2")
-    #     # if eq(str(data['result']['metadata']['intentName']),"Bus_station") :
-    #     #     res = BusInfo.get_bus_station_information([DB.bus_selected,DB.bus_arsid])
-    #     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number") :
-    #         res = SubwayInfo.get_subway_station_and_number_information([DB.subway_selected,DB.subway_stationid,data['result']['parameters']['subway_number']])
-    #     print(res)
-    #     DB.dialogflow_action = 0
-    #     DB.subway_action = 0
-    #     DB.subway_stationid = ""
-    #     DB.subway_selected = ""
-    #     DB.subway_station_result = ""
-    #     DB.jsondata = ""
-    #     DB.save()
-    #
-    #     return JsonResponse({
-    #     'message': {'text': res},
-    #     })
-
 
     return JsonResponse({
         'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
         'keyboard':{'type':'text'}
     })
-
-def incomFalse(user_id):
-    res = alltData.objects.get(session_id=user_id)
-
-    intent_name = res.jsondata['result']['metadata']['intentName']
-    text = ""
-
-    #인텐트별로 처리
-    if eq(intent_name, "path-finder"):
-        text = "\n길을 찾아드릴게요\n"
-
-
-    return text
-
-
-# def incomTure():
-
-
-
-
-	# print(res.session_id)
-
-	#write
-	#allData(session_id=session_id, jsondata=jsontmp, dialogflow_action=dialogflow).save()
-
-	#read
-
-	#result = allData.objects.get(pk=11111)
-	#print("dialgoflow : " + str(result.dialogflow_action))
-
-
-	#num = allData.objects.filter(session_id=11111).count()
-	#txt += "\n\n\npre -> \n"+pData
-
-	#print(num)
