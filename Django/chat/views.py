@@ -173,7 +173,18 @@ def message(request):
                 tmp_list = tmp_list.replace(']',"")
                 tmp_list = tmp_list.replace(' ',"")
                 bus_station_result = tmp_list.split(',')
-                DB.bus_selected = bus_station_result[int(msg_str)-1]
+                try:
+                    DB.bus_selected = bus_station_result[int(msg_str)-1]
+                except ValueError:
+                    DB.dialogflow_action = 0
+                    DB.bus_action = 0
+                    DB.bus_arsid = ""
+                    DB.bus_selected = ""
+                    DB.bus_station_result = ""
+                    DB.jsondata = ""
+                    return JsonResponse({
+                    'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
+                    })
                 print(DB.bus_selected)
                 DB.bus_action = 2
                 DB.dialogflow_action = 0
@@ -198,7 +209,16 @@ def message(request):
                 tmp_list = tmp_list.replace('[',"")
                 tmp_list = tmp_list.replace(']',"")
                 subway_station_result = tmp_list.split(',')
-                DB.subway_selected = subway_station_result[int(msg_str)-1]
+                try:
+                    DB.subway_selected = subway_station_result[int(msg_str)-1]
+                except ValueError:
+                    DB.dialogflow_action = 0
+                    DB.subway_action = 0
+                    DB.subway_selected = ""
+                    DB.subway_station_name=""
+                    return JsonResponse({
+                    'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
+                    })
                 print(DB.subway_selected)
                 DB.subway_action = 2
                 DB.dialogflow_action = 0
