@@ -103,10 +103,9 @@ def message(request):
                     'message': {'text': "!!!\n"+text+"\n\n!!!"},
                     })
 
-    data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
-    print(data)
 
-    if eq(str(data['result']['metadata']['intentName']),"Initialize_db"):
+
+    if eq(msg_str,"초기화"):
         DB.dialogflow_action = 0
         DB.subway_action = 0
         DB.subway_selected = ""
@@ -116,17 +115,9 @@ def message(request):
         return JsonResponse({
         'message': {'text': text},
         })
-    if eq(str(data['result']['metadata']['intentName']),"Help"):
-        text = str(data['result']['fulfillmentText'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
-    if eq(str(data['result']['metadata']['intentName']),"Default Fallback intent"):
-        text = str(data['result']['fulfillment']['messages'][0]['speech'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
 
+    data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
+    print(data)
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
@@ -305,6 +296,16 @@ def message(request):
                 return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
+    if eq(str(data['result']['metadata']['intentName']),"Help"):
+        text = str(data['result']['fulfillmentText'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
+    if eq(str(data['result']['metadata']['intentName']),"Default Fallback intent"):
+        text = str(data['result']['fulfillment']['messages'][0]['speech'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
         #print("subway action : "+str(DB.subway_action))
         #DB.subway_action = 0
         #if DB.subway_action == 0 :
