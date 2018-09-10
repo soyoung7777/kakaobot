@@ -105,18 +105,6 @@ def message(request):
 
 
 
-    if eq(msg_str,"초기화"):
-        DB.dialogflow_action = 0
-        DB.subway_action = 0
-        DB.subway_selected = ""
-        DB.subway_station_name=""
-        DB.save()
-        #text = str(data['result']['fulfillmentText'])
-        return JsonResponse({
-        'message': {'text': "처음부터 다시 시작해주세요"},
-        })
-
-
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("============dialog_data==============")
@@ -130,6 +118,16 @@ def message(request):
             text = str(dialog_data['result']['fulfillment']['speech'])
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            })
+        if eq((dialog_data['result']['metadata']['intentName']),"initialize"):
+            DB.dialogflow_action = 0
+            DB.subway_action = 0
+            DB.subway_selected = ""
+            DB.subway_station_name=""
+            DB.save()
+            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+            return JsonResponse({
+            'message': {'text': text},
             })
         if eq((dialog_data['result']['metadata']['intentName']),"Help"):
             print("Intent : Help")
