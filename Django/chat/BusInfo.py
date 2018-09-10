@@ -90,32 +90,29 @@ def get_bus_station_information(busData):
 
         busList = {}
         tmp = {}
+
         for bus in mbody.iter("itemList"):
-            tmp['msg1'] =  bus.find("arrmsg1").text
-            tmp['msg2'] =  bus.find("arrmsg2").text
-            tmp['adr'] =  bus.find("adirection").text
-            tmp['nxtStn'] = bus.find("nxtStn").text
-            stNm1 = bus.find("stationNm1")
-            stNm2 = bus.find("stationNm2")
-            if stNm1 is None:
-                tmp['stNm1'] = bus.find("stNm").text
-            else:
-                tmp['stNm1'] = stNm1.text
-            if stNm2 is None:
-                tmp['stNm2'] = bus.find("stNm").text
-            else:
-                tmp['stNm2'] = stNm2.text
-            busNo = bus.find("rtNm").text
-            busList[busNo] = tmp
-            #print(busList[stationNm1]+ " " + busList[stationNm2])
+            msg1 = "msg1_c"+str(bcnt)
+            msg2 = "msg2_c"+str(bcnt)
+            adr = "adr_c"+str(bcnt)
+            busNo = "busNo_c"+str(bcnt)
+            busNxt = "busNtext_c" + str(bcnt)
+            busList[msg1] =  bus.find("arrmsg1").text
+            busList[msg2] =  bus.find("arrmsg2").text
+            busList[adr] =  bus.find("adirection").text
+            busList[busNo] =  bus.find("rtNm").text
+            busList[busNxt] = bus.find("nxtStn").text
+            bcnt = bcnt+1
 
-
-        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[busNo]['adr']+"방향) "+"]💌\n"
-        for i in range(0,len(busList.keys())):
-            bus_no = list(busList.keys())[i]
-            text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No][msg1]+"\n"
-
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
+        for i in range(0, bcnt):
+            bus_msg1 = "msg1_c"+str(i)
+            bus_msg2 = "msg2_c"+str(i)
+            bus_adr = "adr_c"+str(i)
+            bus_No = "busNo_c"+str(i)
+            text += "🚌 " + busList[bus_No] + " 👉🏿 "+busList[bus_msg1]+"\n"
         text += "\n"
+
 
     return text
 
