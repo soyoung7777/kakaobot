@@ -116,8 +116,7 @@ def message(request):
         'message': {'text': "처음부터 다시 시작해주세요"},
         })
 
-    data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
-    print(data)
+
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("status : " + str(dialog_data['result']['actionIncomplete']))
@@ -135,7 +134,8 @@ def message(request):
         DB.save()
 
 
-
+    data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
+    print(data)
     if DB.dialogflow_action == 1 :
         print("dialog flow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
