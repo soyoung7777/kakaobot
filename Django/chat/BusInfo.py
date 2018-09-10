@@ -165,7 +165,7 @@ def get_bus_station_and_number_information(busData) :
                 text += "👉🏿 " + busList[busNo]['msg1'] + " " + busList[busNo]['stNm1'] + "\n"
                 text += "👉🏿 " + busList[busNo]['msg2'] + " " + busList[busNo]['stNm2'] + "\n"
                 text += "\n"
-            
+
 
         return text
             #busList[busNo]['congetion1'] = bus.find("congetion1").text
