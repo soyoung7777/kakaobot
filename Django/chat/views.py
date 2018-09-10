@@ -111,9 +111,9 @@ def message(request):
         DB.subway_selected = ""
         DB.subway_station_name=""
         DB.save()
-        text = str(data['result']['fulfillmentText'])
+        #text = str(data['result']['fulfillmentText'])
         return JsonResponse({
-        'message': {'text': text},
+        'message': {'text': "처음부터 다시 시작해주세요"},
         })
 
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
