@@ -237,6 +237,7 @@ def message(request):
                     DB.subway_action = 0
                     DB.subway_selected = ""
                     DB.subway_station_name=""
+                    DB.jsondata = ""
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
@@ -245,6 +246,7 @@ def message(request):
                     DB.subway_action = 0
                     DB.subway_selected = ""
                     DB.subway_station_name=""
+                    DB.jsondata = ""
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
