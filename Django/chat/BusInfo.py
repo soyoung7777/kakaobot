@@ -158,7 +158,7 @@ def get_bus_station_and_number_information(busData) :
             busNo = bus.find("rtNm").text
             busList[busNo] = tmp
 
-            
+
             if eq(busNo,bus_number) :
 
                 text += "🚌 " + busList[busNo]['adr'] + "방향 🚌\n"
@@ -167,7 +167,7 @@ def get_bus_station_and_number_information(busData) :
                 text += "\n"
 
 
-        return text
+    return text
             #busList[busNo]['congetion1'] = bus.find("congetion1").text
             #busList[busNo]['congetion2'] = bus.find("congetion2").text
             #print(busList[stationNm1]+ " " + busList[stationNm2])
