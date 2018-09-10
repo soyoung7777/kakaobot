@@ -104,7 +104,29 @@ def message(request):
                     })
 
 
-
+    dialog_data = dialogflow(msg_str)
+    if eq((dialog_data['result']['metadata']['intentName']),"initialize"):
+        DB.dialogflow_action = 0
+        DB.subway_action = 0
+        DB.subway_selected = ""
+        DB.subway_station_name=""
+        DB.save()
+        text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
+    if eq((dialog_data['result']['metadata']['intentName']),"Help"):
+        print("Intent : Help")
+        text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
+    if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback Intent"):
+        print("Intent : Default Fallback intent")
+        text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
     if DB.dialogflow_action == 0 :
         dialog_data = dialogflow(msg_str)
         print("============dialog_data==============")
@@ -119,28 +141,8 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-        if eq((dialog_data['result']['metadata']['intentName']),"initialize"):
-            DB.dialogflow_action = 0
-            DB.subway_action = 0
-            DB.subway_selected = ""
-            DB.subway_station_name=""
-            DB.save()
-            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
-            return JsonResponse({
-            'message': {'text': text},
-            })
-        if eq((dialog_data['result']['metadata']['intentName']),"Help"):
-            print("Intent : Help")
-            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
-            return JsonResponse({
-            'message': {'text': text},
-            })
-        if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback Intent"):
-            print("Intent : Default Fallback intent")
-            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
-            return JsonResponse({
-            'message': {'text': text},
-            })
+
+
         DB.jsondata = dialog_data
         DB.save()
 
