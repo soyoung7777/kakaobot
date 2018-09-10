@@ -193,6 +193,7 @@ def message(request):
                     DB.bus_selected = ""
                     DB.bus_station_result = ""
                     DB.jsondata = ""
+                    DB.save()
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
@@ -203,6 +204,7 @@ def message(request):
                     DB.bus_selected = ""
                     DB.bus_station_result = ""
                     DB.jsondata = ""
+                    DB.save()
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
@@ -238,6 +240,7 @@ def message(request):
                     DB.subway_selected = ""
                     DB.subway_station_name=""
                     DB.jsondata = ""
+                    DB.save()
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
@@ -247,6 +250,7 @@ def message(request):
                     DB.subway_selected = ""
                     DB.subway_station_name=""
                     DB.jsondata = ""
+                    DB.save()
                     return JsonResponse({
                     'message': {'text': "잘못된 입력입니다😂처음부터 다시 시작해주세요!"},
                     })
