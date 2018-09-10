@@ -110,10 +110,10 @@ def get_bus_station_information(busData):
             #print(busList[stationNm1]+ " " + busList[stationNm2])
 
 
-        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
+        text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[busNo][adr]+"방향) "+"]💌\n"
         for i in range(0,len(busList.keys())):
             bus_no = list(busList.keys())[i]
-            text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No]+"\n"
+            text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No][msg1]+"\n"
 
         text += "\n"
 
