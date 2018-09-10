@@ -308,7 +308,26 @@ def message(request):
             #     return JsonResponse({
             #     'message': {'text': "!!!\n"+text+"\n\n!!!"},
             #     })
-
+    if eq(str(data['result']['metadata']['intentName']),"Initialize_db"):
+        DB.dialogflow_action = 0
+        DB.subway_action = 0
+        DB.subway_selected = ""
+        DB.subway_station_name=""
+        DB.save()
+        text = str(data['result']['fulfillmentText'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
+    if eq(str(data['result']['metadata']['intentName']),"Help"):
+        text = str(data['result']['fulfillmentText'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
+    if eq(str(data['result']['metadata']['intentName']),"Default Fallback intent"):
+        text = str(data['result']['fulfillment']['messages'][0]['speech'])
+        return JsonResponse({
+        'message': {'text': text},
+        })
     if DB.bus_action == 2 :
         print("action2")
         if eq(str(data['result']['metadata']['intentName']),"Bus_station") :
