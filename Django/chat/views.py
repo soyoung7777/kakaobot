@@ -133,7 +133,7 @@ def message(request):
             })
         if eq((dialog_data['result']['metadata']['intentName']),"Help"):
             print("Intent : Help")
-            text = str(data['result']['fulfillmentText'])
+            text = str(dialog_data['result']['messages'][0]['speech'])
             return JsonResponse({
             'message': {'text': text},
             })
