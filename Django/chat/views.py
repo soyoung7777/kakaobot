@@ -85,7 +85,7 @@ def message(request):
                 DB.diff_path = 0
                 DB.save()
                 return JsonResponse({
-                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                    'message': {'text': text},
                 })
             else:
                 data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
@@ -100,7 +100,7 @@ def message(request):
                         DB.save()
 
                     return JsonResponse({
-                    'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                    'message': {'text': text},
                     })
 
 
@@ -116,6 +116,8 @@ def message(request):
         DB.bus_selected = ""
         DB.bus_station_result = ""
         DB.jsondata = ""
+        DB.diff_path = 0
+        DB.limit_time = ""
         DB.save()
 
         return JsonResponse({
@@ -152,7 +154,7 @@ def message(request):
             DB.save()
             text = str(dialog_data['result']['fulfillment']['speech'])
             return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                'message': {'text':text},
             })
         if eq((dialog_data['result']['metadata']['intentName']),"Help"):
             print("Intent : Help")
@@ -271,7 +273,7 @@ def message(request):
             DB.save()
 
         return JsonResponse({
-        'message': {'text': "!!!\n"+text+"\n\n!!!"},
+        'message': {'text': text},
         })
 
 
@@ -280,12 +282,17 @@ def message(request):
             end = str(data['result']['parameters']['all_to'])
             tsType = str(data['result']['parameters']['transportation'])
             if eq(tsType,"지하철") or eq(tsType,"버스"):
-                text = pathPrint.get_result(start, end, tsType, pNum)
+                text = pathPrint.get_result(start, end, tsType, DB.diff_path)
             elif eq(tsType,"고속버스") or eq(tsType,"시외버스"):
                 text = anotherPathPrint.get_result(start, end, tsType)
 
+            if not eq(text[0],"더"):
+                DB.diff_path += 1
+                DB.limit_time = time.time() + 10
+                DB.save()
+
             return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                'message': {'text': text},
             })
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
