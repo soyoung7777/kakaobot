@@ -106,7 +106,7 @@ def get_bus_station_information(busData):
             else:
                 tmp['stNm2'] = stNm2.text
             busNo = bus.find("rtNm").text
-            busListo[busNo] = tmp
+            busList[busNo] = tmp
             #print(busList[stationNm1]+ " " + busList[stationNm2])
 
 
