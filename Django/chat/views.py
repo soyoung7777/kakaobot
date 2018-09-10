@@ -154,7 +154,18 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-
+        if eq((dialog_data['result']['metadata']['intentName']),"Help"):
+            print("Intent : Help")
+            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+            return JsonResponse({
+            'message': {'text': text},
+            })
+        if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback Intent"):
+            print("Intent : Default Fallback intent")
+            text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+            return JsonResponse({
+            'message': {'text': text},
+            })
 
         DB.jsondata = dialog_data
         DB.save()
@@ -363,18 +374,18 @@ def message(request):
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
                 })
 
-    if eq(str(data['result']['metadata']['intentName']),"Help"):
-        print("Intent : Help")
-        text = str(data['result']['fulfillment']['messages'][0]['speech'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
-    if eq(str(data['result']['metadata']['intentName']),"Default Fallback Intent"):
-        print("Intent : Default Fallback intent")
-        text = str(data['result']['fulfillment']['messages'][0]['speech'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
+    # if eq(str(data['result']['metadata']['intentName']),"Help"):
+    #     print("Intent : Help")
+    #     text = str(data['result']['fulfillment']['messages'][0]['speech'])
+    #     return JsonResponse({
+    #     'message': {'text': text},
+    #     })
+    # if eq(str(data['result']['metadata']['intentName']),"Default Fallback Intent"):
+    #     print("Intent : Default Fallback intent")
+    #     text = str(data['result']['fulfillment']['messages'][0]['speech'])
+    #     return JsonResponse({
+    #     'message': {'text': text},
+    #     })
         #print("subway action : "+str(DB.subway_action))
         #DB.subway_action = 0
         #if DB.subway_action == 0 :
