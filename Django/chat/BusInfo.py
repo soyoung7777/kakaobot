@@ -83,13 +83,12 @@ def get_bus_station_information(busData):
     for i in range(0,len(bus_arsid[bus_station])) :
         #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
         oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
-        res_tree = ET.parse(urllib.request.urlopen(oAPI))
+        tree = ET.parse(urllib.request.urlopen(oAPI))
 
-        root = res_tree.getroot()
+        root = tree.getroot()
         mbody = root.find("msgBody")
 
         busList = {}
-        tmp = {}
         bcnt = 0
         for bus in mbody.iter("itemList"):
             msg1 = "msg1_c"+str(bcnt)
