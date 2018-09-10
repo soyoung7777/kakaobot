@@ -137,7 +137,7 @@ def message(request):
             return JsonResponse({
             'message': {'text': text},
             })
-        if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback intent"):
+        if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback Intent"):
             print("Intent : Default Fallback intent")
             text = str(data['result']['fulfillment']['messages'][0]['speech'])
             return JsonResponse({
