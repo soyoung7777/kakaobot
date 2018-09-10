@@ -161,7 +161,7 @@ def get_bus_station_and_number_information(busData) :
             
             if eq(busNo,bus_number) :
 
-                text += "🚌 " + busList[bus_number]['adr'] + "방향\n" + "🚌 "
+                text += "🚌 " + busList[bus_number]['adr'] + "방향 🚌\n"
                 text += "👉🏿 " + busList[bus_number]['msg1'] + " " + busList[bus_number]['stNm1'] + "\n"
                 text += "👉🏿 " + busList[bus_number]['msg2'] + " " + busList[bus_number]['stNm2'] + "\n"
                 text += "\n"
