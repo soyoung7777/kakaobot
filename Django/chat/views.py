@@ -129,7 +129,18 @@ def message(request):
             return JsonResponse({
                 'message': {'text': "!!!\n"+text+"\n\n!!!"},
             })
-
+        if eq((dialog_data['result']['metadata']['intentName']),"Help"):
+            print("Intent : Help")
+            text = str(data['result']['fulfillmentText'])
+            return JsonResponse({
+            'message': {'text': text},
+            })
+        if eq((dialog_data['result']['metadata']['intentName']),"Default Fallback intent"):
+            print("Intent : Default Fallback intent")
+            text = str(data['result']['fulfillment']['messages'][0]['speech'])
+            return JsonResponse({
+            'message': {'text': text},
+            })
         DB.jsondata = dialog_data
         DB.save()
 
@@ -137,18 +148,7 @@ def message(request):
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
     print(data)
 
-    if eq(str(data['result']['metadata']['intentName']),"Help"):
-        print("Intent : Help")
-        text = str(data['result']['fulfillmentText'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
-    if eq(str(data['result']['metadata']['intentName']),"Default Fallback intent"):
-        print("Intent : Default Fallback intent")
-        text = str(data['result']['fulfillment']['messages'][0]['speech'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
+
     if DB.dialogflow_action == 1 :
         print("dialog flow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
@@ -335,16 +335,7 @@ def message(request):
             #     return JsonResponse({
             #     'message': {'text': "!!!\n"+text+"\n\n!!!"},
             #     })
-    if eq(str(data['result']['metadata']['intentName']),"Initialize_db"):
-        DB.dialogflow_action = 0
-        DB.subway_action = 0
-        DB.subway_selected = ""
-        DB.subway_station_name=""
-        DB.save()
-        text = str(data['result']['fulfillmentText'])
-        return JsonResponse({
-        'message': {'text': text},
-        })
+
     if eq(str(data['result']['metadata']['intentName']),"Help"):
         text = str(data['result']['fulfillmentText'])
         return JsonResponse({
