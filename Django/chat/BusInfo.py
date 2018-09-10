@@ -139,6 +139,7 @@ def get_bus_station_and_number_information(busData) :
 
         busList = {}
         tmp = {}
+        text += "💌[ "+bus_station+"에 관한 "+ bus_number + " 도착정보입니다 ]💌\n"
         for bus in mbody.iter("itemList"):
             tmp['msg1'] =  bus.find("arrmsg1").text
             tmp['msg2'] =  bus.find("arrmsg2").text
@@ -157,11 +158,12 @@ def get_bus_station_and_number_information(busData) :
             busNo = bus.find("rtNm").text
             busList[busNo] = tmp
 
-            text += "💌[ "+bus_station+"에 관한 "+ bus_number + " 도착정보입니다 ]💌\n"
+            
             if eq(busNo,bus_number) :
-                text += "🚌 " + busList[bus_number]['adr'] + "방향\n"
-                text += "👉 " + busList[bus_number]['msg1'] + " " + busList[bus_number]['stNm1'] + "\n"
-                text += "👉 " + busList[bus_number]['msg2'] + " " + busList[bus_number]['stNm2'] + "\n"
+
+                text += "🚌 " + busList[bus_number]['adr'] + "방향\n" + "🚌 "
+                text += "👉🏿 " + busList[bus_number]['msg1'] + " " + busList[bus_number]['stNm1'] + "\n"
+                text += "👉🏿 " + busList[bus_number]['msg2'] + " " + busList[bus_number]['stNm2'] + "\n"
                 text += "\n"
             
 
