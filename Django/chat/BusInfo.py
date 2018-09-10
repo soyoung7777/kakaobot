@@ -10,7 +10,7 @@ bus_ars_id = {}
 def get_bus_station(json_Data):
     #오디세이에서 버스 리스트 반환
 
-    searchST = str(json_Data['result']['parameters']['bus_station'])
+    searchST = str(json_Data['result']['parameters']['any_bus_station'])
     print("searchST " + searchST)
     res = ""
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
@@ -49,7 +49,7 @@ def get_bus_direction(stationName):
     res = ""
 
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
-    my = "f/WM8od4VAXdGg4Q5ZaWSlJ8tIbSpw+nJ4WQ4AFRpsM"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
 
     encMy = urllib.parse.quote_plus(my)
 
