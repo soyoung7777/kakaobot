@@ -68,7 +68,10 @@ def get_result(start, end, tsType, pNum):
 		json_rt = response.read().decode('utf-8')
 		data = json.loads(json_rt)
 
-		path_data = data['result']['path']
+		try:
+			path_data = data['result']['path']
+		except KeyError:
+			txt = "문제가 생겼어요😂잠시 후 다시 이용해주시겠어요?"
 		path_len = len(path_data)
 
 		if pNum < path_len:
