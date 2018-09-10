@@ -104,8 +104,8 @@ def message(request):
                     })
 
 
-    dialog_data = dialogflow(msg_str)
-    if eq((dialog_data['result']['metadata']['intentName']),"initialize"):
+    #dialog_data = dialogflow(msg_str)
+    if eq(msg_str,"초기화"):
         DB.dialogflow_action = 0
         DB.subway_action = 0
         DB.subway_selected = ""
@@ -117,10 +117,16 @@ def message(request):
         DB.bus_station_result = ""
         DB.jsondata = ""
         DB.save()
-        
-        text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
+
         return JsonResponse({
-        'message': {'text': text},
+        'message': {'text': "💜저는 교통정보를 알려주는 ’내가알려줄지도’ 입니다. 🤖💜\n\n"+
+        "제가 할 수 있는 일은\n"+
+        "①경로 검색 \n"+
+        "②실시간 교통정보 검색  입니다!\n"+
+        "‘도움말’을 채팅창에 입력하시면,\n"+
+        "저를 사용하는 방법을 알려드립니다! 😆\n"+
+        "친구 추가해주셔서 감사합니다.\n"+
+        "오늘도 좋은 하루 보내세요 ❤️"
         })
     # if eq((dialog_data['result']['metadata']['intentName']),"Help"):
     #     print("Intent : Help")
