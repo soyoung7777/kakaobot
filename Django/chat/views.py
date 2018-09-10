@@ -103,24 +103,6 @@ def message(request):
                     'message': {'text': "!!!\n"+text+"\n\n!!!"},
                     })
 
-
-    if DB.dialogflow_action == 0 :
-        dialog_data = dialogflow(msg_str)
-        print("status : " + str(dialog_data['result']['actionIncomplete']))
-
-        if eq((dialog_data['result']['actionIncomplete']),"True") :
-            print("True")
-            DB.jsondata = dialog_data
-            DB.save()
-            text = str(dialog_data['result']['fulfillment']['speech'])
-            return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
-            })
-
-        DB.jsondata = dialog_data
-        DB.save()
-
-
     data = json.loads(json.dumps(ast.literal_eval(str(DB.jsondata))))
     print(data)
 
@@ -144,9 +126,27 @@ def message(request):
         return JsonResponse({
         'message': {'text': text},
         })
-    
+
+    if DB.dialogflow_action == 0 :
+        dialog_data = dialogflow(msg_str)
+        print("status : " + str(dialog_data['result']['actionIncomplete']))
+
+        if eq((dialog_data['result']['actionIncomplete']),"True") :
+            print("True")
+            DB.jsondata = dialog_data
+            DB.save()
+            text = str(dialog_data['result']['fulfillment']['speech'])
+            return JsonResponse({
+                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+            })
+
+        DB.jsondata = dialog_data
+        DB.save()
+
+
+
     if DB.dialogflow_action == 1 :
-        print("dialogif flow action = 1")
+        print("dialog flow action = 1")
         if eq(data['result']['metadata']['intentName'],"Bus_station"):
             if DB.bus_action == 1 :
                 tmp_list = DB.bus_station_result
