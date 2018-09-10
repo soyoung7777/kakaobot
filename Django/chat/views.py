@@ -309,7 +309,7 @@ def message(request):
                 DB.save()
 
                 return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                'message': {'text': text},
                 })
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station_and_number"):
@@ -333,7 +333,7 @@ def message(request):
                 DB.save()
 
                 return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                'message': {'text': text},
                 })
 
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
@@ -349,7 +349,7 @@ def message(request):
             })
         else:
             return JsonResponse({
-            'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요"},
+            'message': {'text': "정확한 지하철 역명과 호선을 입력해주세요😂"},
             })
 
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
@@ -377,7 +377,7 @@ def message(request):
                 DB.save()
 
                 return JsonResponse({
-                'message': {'text': "!!!\n"+text+"\n\n!!!"},
+                'message': {'text': text},
                 })
 
     # if eq(str(data['result']['metadata']['intentName']),"Help"):
@@ -469,6 +469,6 @@ def message(request):
 
 
     return JsonResponse({
-        'message':{'text':"!!!\n\n"+txt+"\n\n!!!"},
+        'message':{'text':txt},
         'keyboard':{'type':'text'}
     })
