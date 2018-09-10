@@ -29,9 +29,9 @@ def get_bus_station(json_Data):
     bus_station_dic = {}
     for i in range(0,len(st['result']['station'])):
         if st['result']['station'][i]['stationName'] not in bus_station_dic:
-            bus_station_dic[st['result']['station'][i]['stationName']] = [str(st['result']['station'][i]['arsID']).replace("-","")]
+            bus_station_dic[st['result']['station'][i]['stationName'].replace(" ","")] = [str(st['result']['station'][i]['arsID']).replace("-","")]
         else :
-            bus_station_dic[st['result']['station'][i]['stationName']].append(str(st['result']['station'][i]['arsID']).replace("-",""))
+            bus_station_dic[st['result']['station'][i]['stationName'].replace(" ","")].append(str(st['result']['station'][i]['arsID']).replace("-",""))
 
     if len(bus_station_dic.keys()) == 1 :
         return [1,res,list(bus_station_dic.keys()),bus_station_dic]
