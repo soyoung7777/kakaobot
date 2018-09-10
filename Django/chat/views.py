@@ -110,7 +110,14 @@ def message(request):
         DB.subway_action = 0
         DB.subway_selected = ""
         DB.subway_station_name=""
+        DB.dialogflow_action = 0
+        DB.bus_action = 0
+        DB.bus_arsid = ""
+        DB.bus_selected = ""
+        DB.bus_station_result = ""
+        DB.jsondata = ""
         DB.save()
+        
         text = str(dialog_data['result']['fulfillment']['messages'][0]['speech'])
         return JsonResponse({
         'message': {'text': text},

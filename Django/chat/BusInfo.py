@@ -29,9 +29,9 @@ def get_bus_station(json_Data):
     bus_station_dic = {}
     for i in range(0,len(st['result']['station'])):
         if st['result']['station'][i]['stationName'] not in bus_station_dic:
-            bus_station_dic[st['result']['station'][i]['stationName']] = [str(st['result']['station'][i]['arsID']).replace("-","")]
+            bus_station_dic[st['result']['station'][i]['stationName'].replace(" ","")] = [str(st['result']['station'][i]['arsID']).replace("-","")]
         else :
-            bus_station_dic[st['result']['station'][i]['stationName']].append(str(st['result']['station'][i]['arsID']).replace("-",""))
+            bus_station_dic[st['result']['station'][i]['stationName'].replace(" ","")].append(str(st['result']['station'][i]['arsID']).replace("-",""))
 
     if len(bus_station_dic.keys()) == 1 :
         return [1,res,list(bus_station_dic.keys()),bus_station_dic]
@@ -83,39 +83,35 @@ def get_bus_station_information(busData):
     for i in range(0,len(bus_arsid[bus_station])) :
         #encArs = urllib.parse.quote_plus(bus_arsid[bus_station][i])
         oAPI = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid?ServiceKey="+ACCESS+"&arsId="+bus_arsid[bus_station][i]
-        res_tree = ET.parse(urllib.request.urlopen(oAPI))
+        tree = ET.parse(urllib.request.urlopen(oAPI))
 
-        root = res_tree.getroot()
+        root = tree.getroot()
         mbody = root.find("msgBody")
 
         busList = {}
-        tmp = {}
+        bcnt = 0
         for bus in mbody.iter("itemList"):
-            tmp['msg1'] =  bus.find("arrmsg1").text
-            tmp['msg2'] =  bus.find("arrmsg2").text
-            tmp['adr'] =  bus.find("adirection").text
-            tmp['nxtStn'] = bus.find("nxtStn").text
-            stNm1 = bus.find("stationNm1")
-            stNm2 = bus.find("stationNm2")
-            if stNm1 is None:
-                tmp['stNm1'] = bus.find("stNm").text
-            else:
-                tmp['stNm1'] = stNm1.text
-            if stNm2 is None:
-                tmp['stNm2'] = bus.find("stNm").text
-            else:
-                tmp['stNm2'] = stNm2.text
-            busNo = bus.find("rtNm").text
-            busListo[busNo] = tmp
-            #print(busList[stationNm1]+ " " + busList[stationNm2])
-
+            msg1 = "msg1_c"+str(bcnt)
+            msg2 = "msg2_c"+str(bcnt)
+            adr = "adr_c"+str(bcnt)
+            busNo = "busNo_c"+str(bcnt)
+            busNxt = "busNtext_c" + str(bcnt)
+            busList[msg1] =  bus.find("arrmsg1").text
+            busList[msg2] =  bus.find("arrmsg2").text
+            busList[adr] =  bus.find("adirection").text
+            busList[busNo] =  bus.find("rtNm").text
+            busList[busNxt] = bus.find("nxtStn").text
+            bcnt = bcnt+1
 
         text += "💌[ "+bus_station+"("+bus_arsid[bus_station][i] + ", " +busList[adr]+"방향) "+"]💌\n"
-        for i in range(0,len(busList.keys())):
-            bus_no = list(busList.keys())[i]
-            text += "🚌 " + bus_no + " 👉🏿 "+ busList[bus_No]+"\n"
-
+        for i in range(0, bcnt):
+            bus_msg1 = "msg1_c"+str(i)
+            bus_msg2 = "msg2_c"+str(i)
+            bus_adr = "adr_c"+str(i)
+            bus_No = "busNo_c"+str(i)
+            text += "🚌 " + busList[bus_No] + " 👉🏿 "+busList[bus_msg1]+"\n"
         text += "\n"
+
 
     return text
 
@@ -143,6 +139,7 @@ def get_bus_station_and_number_information(busData) :
 
         busList = {}
         tmp = {}
+        text += "💌[ "+bus_station+" 🚏 "+ bus_number +"번 도착정보 ]💌\n"
         for bus in mbody.iter("itemList"):
             tmp['msg1'] =  bus.find("arrmsg1").text
             tmp['msg2'] =  bus.find("arrmsg2").text
@@ -161,12 +158,16 @@ def get_bus_station_and_number_information(busData) :
             busNo = bus.find("rtNm").text
             busList[busNo] = tmp
 
+
             if eq(busNo,bus_number) :
-                print("match!!!!")
 
-            
+                text += "🚌 " + busList[busNo]['adr'] + "방향 🚌\n"
+                text += "👉🏿 " + busList[busNo]['msg1'] + " " + busList[busNo]['stNm1'] + "\n"
+                text += "👉🏿 " + busList[busNo]['msg2'] + " " + busList[busNo]['stNm2'] + "\n"
+                text += "\n"
 
 
+    return text
             #busList[busNo]['congetion1'] = bus.find("congetion1").text
             #busList[busNo]['congetion2'] = bus.find("congetion2").text
             #print(busList[stationNm1]+ " " + busList[stationNm2])
