@@ -263,9 +263,10 @@ def message(request):
     #if(dialogflow_action == 1)문 종료
 
     if eq(str(data['result']['metadata']['intentName']),"PathFind"):
+        DB.diff_path = 0
         start = str(data['result']['parameters']['all_from'])
         end = str(data['result']['parameters']['all_to'])
-        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!"
+        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!\n"
         text += pathPrint.get_result(start, end, '', DB.diff_path)
 
         if not eq(text[0],"더"):
