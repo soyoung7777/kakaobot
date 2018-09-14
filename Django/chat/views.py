@@ -266,7 +266,7 @@ def message(request):
         DB.diff_path = 0
         start = str(data['result']['parameters']['all_from'])
         end = str(data['result']['parameters']['all_to'])
-        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!\n"
+        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!\n\n\n"
         text += pathPrint.get_result(start, end, '', DB.diff_path)
 
         if not eq(text[0],"더"):
@@ -276,6 +276,7 @@ def message(request):
 
         return JsonResponse({
         'message': {'text': text},
+        'message_button':{'label':"자세히 보기"}
         })
 
 
