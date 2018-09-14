@@ -276,7 +276,7 @@ def message(request):
 
         return JsonResponse({
         'message': {'text': text},
-        'message_button':{'label':"자세히 보기"},
+        'message_button':{'label':"자세히 보기",'url':"http://pf.kakao.com/_kgNxhj"},
         })
 
 
