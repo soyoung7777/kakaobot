@@ -265,7 +265,8 @@ def message(request):
     if eq(str(data['result']['metadata']['intentName']),"PathFind"):
         start = str(data['result']['parameters']['all_from'])
         end = str(data['result']['parameters']['all_to'])
-        text = pathPrint.get_result(start, end, '', DB.diff_path)
+        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!"
+        text += pathPrint.get_result(start, end, '', DB.diff_path)
 
         if not eq(text[0],"더"):
             DB.diff_path += 1
