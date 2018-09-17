@@ -275,9 +275,7 @@ def message(request):
             DB.save()
 
         return JsonResponse({
-            'message': {'text': text,
-                        'message_button': {'label':"자세히 보기",'url':"https://sihyun0107.github.io/kakaobotWeb/Website/index.html"}
-                    },
+        'message': {'text': text},
         })
 
 
