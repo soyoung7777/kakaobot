@@ -360,7 +360,7 @@ def detail_get_subway_station_and_number_information(subwayData):
                 if eq(StationExistName,"error" or "none"):#시간표정보
                     print(stationName+" 상행")
                     text +=detail_get_schedule(stationName, day, 1,current_laneName)
-                    text = "<font color='#FF4D45'style='font-weight: bold;line-height:1.5em;'>"+tet+"</font>"
+                    text = "<font color='#FF4D45'style='font-weight: bold;line-height:1.5em;'>"+text+"</font>"
                     isSchedule = True
                     if eq(sName,"서울역"):
                         title=stationName+" "+current_laneName+"시간표 정보"
@@ -379,7 +379,7 @@ def detail_get_subway_station_and_number_information(subwayData):
                 if eq(StationExistName,"error" or "none"):#시간표정보
                     print(stationName+" 하행")
                     text +=detail_get_schedule(stationName, day, 2,current_laneName)
-                    text = "<font color='#FF4D45'style='font-weight: bold;line-height:1.5em;'>"+tet+"</font>"
+                    text = "<font color='#FF4D45'style='font-weight: bold;line-height:1.5em;'>"+text+"</font>"
                     isSchedule = True
                     if eq(sName,"서울역"):
                         title=stationName+" "+current_laneName+"시간표 정보"
