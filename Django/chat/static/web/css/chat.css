@@ -1,0 +1,72 @@
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+html,
+body {
+ background-color: #D0CCDF;
+ width:100%;
+ height:100%;
+ overflow-x:hidden;
+}
+
+.bubble-speech {
+ position: relative;
+ font-family: 'Source Sans Pro', sans-serif;
+ margin: auto;
+ line-height: 22px;
+ letter-spacing: 1px;
+ margin-top: 20px;
+ margin-bottom: 48px;
+ width: 90%;
+ height: 60%;
+ margin-left: 5%;
+ margin-right: 5%;
+ background-color: #EFEFEF;
+ float:right;
+}
+
+.bubble-speech.bubble-bottom:after {
+ z-index: 2;
+ content: "";
+ position: absolute;
+ width:0;
+ height:0;
+ left: 40px;
+ bottom: -80px;
+ border:30px transparent solid;
+ border-top:50px #efefef solid;
+}
+.bubble-speech .title {
+ max-width: 700px;
+ font-family: 'Jeju Gothic', serif;
+ font-size:300%;
+ margin: 0;
+ margin-left: 20px;
+ padding: 30px 12px 2px 30px;
+ text-align: center;
+}
+.bubble-speech .p {
+ max-width: 700px;
+ font-family: 'Jeju Gothic', serif;
+ font-size:250%;
+ margin: 0;
+ margin-left: 20px;
+ padding: 30px 12px 2px 30px;
+ text-align: center;
+}
+
+.bubble-speech .message {
+ font-size:35px;
+ margin-top: 50px;
+ margin-left: 20px;
+ font-family: 'Noto Sans KR', sans-serif;
+}
+
+.footer{
+  bottom: 15%;
+  width: 100%;
+  position:fixed;
+}
+#magic{
+ margin:20px;
+}

@@ -43,6 +43,90 @@ def get_bus_station(json_Data):
         return [2,res,list(bus_station_dic.keys()),bus_station_dic]
 
 
+def get_bus_pos(busnumber):
+
+    res = ""
+    ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
+    encMy = urllib.parse.quote_plus(my)
+    encNo = urllib.parse.quote_plus(busnumber)
+
+    odUrl = "https://api.odsay.com/v1/api/searchBusLane?lang=0&busNo="+encNo+"&CID=1000&apiKey="+encMy
+
+    request = urllib.request.Request(odUrl)
+    response = urllib.request.urlopen(request)
+
+    json_rt = response.read().decode('utf-8')
+    st = json.loads(json_rt)
+
+    odsay_bus_id = st['result']['lane'][0]['busID']
+    local_bus_id = st['result']['lane'][0]['localBusID']
+
+    print("busnumber : " + busnumber)
+    print(str(odsay_bus_id) + " " + str(local_bus_id))
+
+    odUrl = "https://api.odsay.com/v1/api/busLaneDetail?lang=0&busID="+str(odsay_bus_id)+"&apiKey="+encMy
+    request = urllib.request.Request(odUrl)
+    response = urllib.request.urlopen(request)
+    json_rt = response.read().decode('utf-8')
+    st = json.loads(json_rt)
+
+    print(st['result']['station'][0])
+
+    local_id_dic = {}
+    find = False
+    for i in st['result']['station']:
+        local_id_dic[i['localStationID']] = i['stationName']
+        if i['stationDirection'] == 2 and find == False:
+            last_station = i['stationName']
+            last_station_idx = i['idx']
+            find = True
+
+
+    ACCESS = "3wHizUCNd7ZmuKOs9bo3k%2FYfetwb18DzZH2xGCF6njHOYeKe5pB4RoO6AKAz3xKdeFUAVYFsf2yWa%2BhntbQJHw%3D%3D"
+    oAPI = "http://ws.bus.go.kr/api/rest/buspos/getLowBusPosByRtid?serviceKey="+ACCESS+"&busRouteId="+str(local_bus_id)
+
+    tree = ET.parse(urllib.request.urlopen(oAPI))
+    root = tree.getroot()
+    mbody = root.find("msgBody")
+
+    bus_list = []
+
+    for bus in mbody.iter("itemList"):
+        tmp = []
+        tmp.append(bus.find("sectOrd").text)
+        tmp.append(bus.find("stopFlag").text)
+        tmp.append(bus.find("lastStnId").text)
+        tmp.append(bus.find("islastyn").text)
+        tmp.append(bus.find("lastStTm").text)
+
+        bus_list.append(tmp)
+
+    reverse = False
+
+    res += "💌 "+busnumber + "의 위치 정보 💌" + "\n\n"
+    res += "🚌 " + last_station + " 방향 🚌" + "\n\n"
+    for i in bus_list:
+        if int(i[0]) > last_station_idx and reverse == False:
+            reverse = True
+            res += "🚌 " + st['result']['station'][0]['stationName'] + " 방향 🚌" + "\n\n"
+
+        if int(i[3])==1 :
+            res += "‼️막차입니다‼️" + "\n"
+        res += "👉🏿 현재정류장 : " + local_id_dic[i[2]]+"\n"
+        res += "👉 다음정류장 : " + st['result']['station'][int(i[0])]['stationName']+"\n"
+        res += "\n"
+
+    print(res)
+    return res
+
+
+
+
+
+
+
+
 def get_bus_direction(stationName):
     global bus_ars_id
     print("stationName : " + stationName)

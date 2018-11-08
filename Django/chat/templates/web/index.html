@@ -1,0 +1,26 @@
+<!--<h1>Hello world!</h1>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>내가 알려줄지도 검색결과</title>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900|Orbitron:900' rel='stylesheet' type='text/css'>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'web/css/chat.css'%}">
+</head>
+<body>
+  {% load static %}
+  <div class="bubble-speech bubble-bottom">
+  <div class="title">
+    {{title}}
+  </div>
+  <div class="message">
+    {{message}}
+  </div>
+</div>
+<div class = "footer">
+  <img id = "magic" src="{% static 'web/image/magic.png'%}" style="width:25%; height:25% float:left;">
+</div>
+    <!--<h1>{{message}}</h1>-->
+</body>
+</html>

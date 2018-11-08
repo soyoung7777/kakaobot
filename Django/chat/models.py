@@ -16,7 +16,9 @@ class allData(models.Model):
 	subway_station_name = models.TextField(default="")
 	diff_path = models.IntegerField(default=0)
 	limit_time = models.TextField(default="")
-
+	detail_message = models.TextField(default="")
+	title = models.TextField(default="")
+	#user_id = models.TextField(default="")
 
 	def __str__(self):
 		return self.data
