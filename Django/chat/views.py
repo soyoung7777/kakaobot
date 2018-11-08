@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,7 @@ import time
 from operator import eq
 from random import *
 import ast
+from django.utils.safestring import mark_safe
 
 from . import pathPrint
 from . import anotherPathPrint
@@ -37,12 +39,13 @@ CLIENT_ACCESS_TOKEN = 'f087d3e9915f48e9935bba49078b7d83'
 
 
 
-def dialogflow(msg_str):
+def dialogflow(msg_str, session_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     dialogflow_request = ai.text_request()
 
     dialogflow_request.lang = 'ko'
     dialogflow_request.query = msg_str
+    dialogflow_request.session_id = session_id
     response = dialogflow_request.getresponse()
 
     data = json.loads(response.read().decode('utf-8'))
@@ -75,7 +78,11 @@ def message(request):
     print("DB check : " + str(DB.session_id))
     # DB.dialogflow_action = 0
     # DB.subway_action=0
-
+    DB.detail_message=""
+    DB.title=""
+    DB.save()
+    #DB.user_id=user_id
+    #DB.save()
     #다른경로
     if DB.diff_path is not 0:
         cur_time = str(time.time())
@@ -92,7 +99,12 @@ def message(request):
                 if eq(str(data['result']['metadata']['intentName']),"PathFind"):
                     start = str(data['result']['parameters']['all_from'])
                     end = str(data['result']['parameters']['all_to'])
-                    text = pathPrint.get_result(start, end, '', DB.diff_path)
+                    geo, title, text, detail_res = pathPrint.get_result(start, end, '', DB.diff_path)
+                    enc_userid = urllib.parse.quote_plus(user_id)
+                    path_num = str(DB.diff_path)
+                    DB.detail_message = str(detail_res)
+                    DB.title = str(title)
+                    DB.save()
 
                     if not eq(text[0],"더"):
                         DB.diff_path += 1
@@ -100,7 +112,9 @@ def message(request):
                         DB.save()
 
                     return JsonResponse({
-                    'message': {'text': text},
+                        'message': {'text': text,
+                                    'message_button': {'label':"자세히 보기",'url':"http://13.124.249.208/pathFind/"+enc_userid+"/"+path_num+"/"+geo['sx']+"&"+geo['sy']+"&"+geo['ex']+"&"+geo['ey']+"/"}
+                                    },
                     })
 
 
@@ -143,12 +157,12 @@ def message(request):
     #     'message': {'text': text},
     #     })
     if DB.dialogflow_action == 0 :
-        dialog_data = dialogflow(msg_str)
+        dialog_data = dialogflow(msg_str, user_id)
         print("============dialog_data==============")
         print(str(dialog_data))
         print("status : " + str(dialog_data['result']['actionIncomplete']))
 
-        if eq((dialog_data['result']['actionIncomplete']),"True") :
+        if eq(str(dialog_data['result']['actionIncomplete']),"True") :
             print("True")
             DB.jsondata = dialog_data
             DB.save()
@@ -266,8 +280,12 @@ def message(request):
         DB.diff_path = 0
         start = str(data['result']['parameters']['all_from'])
         end = str(data['result']['parameters']['all_to'])
-        text = start+"에서 "+end+"까지 가는 길 알려드릴게요!\n\n\n"
-        text += pathPrint.get_result(start, end, '', DB.diff_path)
+        geo, title, text, detail_res = pathPrint.get_result(start, end, '', DB.diff_path)
+        enc_userid = urllib.parse.quote_plus(user_id)
+        path_num = str(DB.diff_path)
+        DB.detail_message = str(detail_res)
+        DB.title = str(title)
+        DB.save()
 
         if not eq(text[0],"더"):
             DB.diff_path += 1
@@ -275,27 +293,50 @@ def message(request):
             DB.save()
 
         return JsonResponse({
-        'message': {'text': text},
+            'message': {'text': text,
+                        'message_button': {'label':"자세히 보기",'url':"http://13.124.249.208/pathFind/"+enc_userid+"/"+path_num+"/"+geo['sx']+"&"+geo['sy']+"&"+geo['ex']+"&"+geo['ey']+"/"}
+                        },
         })
 
 
     if eq(str(data['result']['metadata']['intentName']),"PathFind_transportation"):
-            start = str(data['result']['parameters']['all_from'])
-            end = str(data['result']['parameters']['all_to'])
-            tsType = str(data['result']['parameters']['transportation'])
-            if eq(tsType,"지하철") or eq(tsType,"버스"):
-                text = pathPrint.get_result(start, end, tsType, DB.diff_path)
-            elif eq(tsType,"고속버스") or eq(tsType,"시외버스"):
-                text = anotherPathPrint.get_result(start, end, tsType)
+        start = str(data['result']['parameters']['all_from'])
+        end = str(data['result']['parameters']['all_to'])
+        tsType = str(data['result']['parameters']['transportation'])
+        if eq(tsType,"지하철") or eq(tsType,"버스"):
+            text = pathPrint.get_result(start, end, tsType, DB.diff_path)
+        elif eq(tsType,"고속버스") or eq(tsType,"시외버스"):
+            text = anotherPathPrint.get_result(start, end, tsType)
 
-            if not eq(text[0],"더"):
-                DB.diff_path += 1
-                DB.limit_time = time.time() + 10
-                DB.save()
+        if not eq(text[0],"더"):
+            DB.diff_path += 1
+            DB.limit_time = time.time() + 10
+            DB.save()
 
-            return JsonResponse({
-                'message': {'text': text},
-            })
+        return JsonResponse({
+            'message': {'text': text,
+                        'message_button': {'label':"자세히 보기",'url':url_str}
+                        },
+        })
+
+    if eq(str(data['result']['metadata']['intentName']), "Bus_number"):
+        bus_N = data['result']['parameters']['bus_number']
+        print("BUSNUMBERINTENT")
+        res = BusInfo.get_bus_pos(bus_N)
+
+        DB.dialogflow_action = 0
+        DB.bus_action = 0
+        DB.bus_arsid = ""
+        DB.bus_selected = ""
+        DB.bus_station_result = ""
+        DB.jsondata = ""
+        DB.save()
+
+        print("finish")
+
+        return JsonResponse({
+        'message': {'text': res},
+        })
 
     if eq(str(data['result']['metadata']['intentName']),"Bus_station"):
         if DB.bus_action == 0 :
@@ -347,14 +388,48 @@ def message(request):
 
     if eq(str(data['result']['metadata']['intentName']),"Subway_station_and_number"):
         print("Intent : Subway_station_and_number")
+        #url_str = "http://pf.kakao.com/"
+        if eq(str(data['result']['actionIncomplete']),"True") :
+            text = str(dialog_data['result']['fulfillment']['speech'])
+            DB.dialogflow_action = 0
+            DB.subway_action = 0
+            DB.subway_selected = ""
+            DB.subway_station_name=""
+            DB.save()
+            return JsonResponse({
+            'message': {'text': text},
+            })
         Exist = SubwayInfo.config_exist_subway_station_and_number([data['result']['parameters']['subway_station'],
         data['result']['parameters']['subway_number']])
-
         if Exist:
-            res = SubwayInfo.get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+            print("해당 지하철역명과 호선 존재")
+            res = SubwayInfo.simple_get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
             data['result']['parameters']['subway_number']])
+
+            # if isSchedule:
+            #     DB.dialogflow_action = 0
+            #     DB.subway_action = 0
+            #     DB.subway_selected = ""
+            #     DB.subway_station_name=""
+            #     DB.save()
+            #     return JsonResponse({
+            #     'message': {'text': res},
+            #     })
+            # else:
+            print("========before call index function=======")
+            title, detail_res = SubwayInfo.detail_get_subway_station_and_number_information([data['result']['parameters']['subway_station'],
+            data['result']['parameters']['subway_number']])
+            print("=========detail_res=======")
+            print(str(detail_res))
+            DB.detail_message=str(detail_res)
+            DB.title = str(title)
+            DB.save()
+            #index(detail_res)
+            enc_userid = urllib.parse.quote_plus(user_id)
             return JsonResponse({
-            'message': {'text': res},
+            'message': {'text': res,
+                        'message_button': {'label':"자세히 보기",'url':"http://13.124.249.208/index/"+enc_userid+"/"}
+                        },
             })
         else:
             return JsonResponse({
@@ -364,6 +439,16 @@ def message(request):
     if eq(str(data['result']['metadata']['intentName']),"Subway_station"):
         print("Intent : Subway_station")
         print("subway action : "+str(DB.subway_action))
+        if eq(str(data['result']['actionIncomplete']),"True") :
+            text = str(data['result']['fulfillment']['speech'])
+            DB.dialogflow_action = 0
+            DB.subway_action = 0
+            DB.subway_selected = ""
+            DB.subway_station_name=""
+            DB.save()
+            return JsonResponse({
+            'message': {'text': text},
+            })
         if DB.subway_action == 0 :
             print("action 0")
             subway_return = SubwayInfo.get_subway_station(data)
@@ -463,17 +548,36 @@ def message(request):
 
         #if Exist:
         subway_number = DB.subway_selected
-        res = SubwayInfo.get_subway_station_and_number_information([DB.subway_station_name,
+        res = SubwayInfo.simple_get_subway_station_and_number_information([DB.subway_station_name,
         DB.subway_selected])
+        # if eq(res,"공공데이터에 문제가 생겼어요😂😂\n10초 뒤에 다시 이용해주시겠어요?\n꼭 다시 오셔야해요❤"):
+        #     DB.dialogflow_action = 0
+        #     DB.subway_action = 0
+        #     DB.subway_selected = ""
+        #     DB.subway_station_name=""
+        #     DB.save()
+        #     return JsonResponse({
+        #     'message': {'text': res},
+        #     })
+        # else:
+        title, detail_res = SubwayInfo.detail_get_subway_station_and_number_information([DB.subway_station_name,
+        DB.subway_selected])
+        print("=========detail_res=======")
+        print(str(detail_res))
+        DB.detail_message=str(detail_res)
+        DB.title = str(title)
 
         DB.dialogflow_action = 0
         DB.subway_action = 0
         DB.subway_selected = ""
         DB.subway_station_name=""
         DB.save()
-
+        #index(detail_res)
+        enc_userid = urllib.parse.quote_plus(user_id)
         return JsonResponse({
-        'message': {'text': res},
+        'message': {'text': res,
+                    'message_button': {'label':"자세히 보기",'url':"http://13.124.249.208/index/"+enc_userid+"/"}
+                    },
         })
 
 
@@ -481,3 +585,27 @@ def message(request):
         'message':{'text':txt},
         'keyboard':{'type':'text'}
     })
+
+def index(request, pk):
+    print("===call index function===")
+    #user_id = DB.user_id
+    DB = allData.objects.get(pk=pk)
+
+
+    msg = DB.detail_message
+    title = DB.title
+    print("detail_message : "+msg)
+    print("detail_message : "+str(type(msg)))
+    msg = mark_safe(msg)
+    return render_to_response('web/index.html', {'message': msg, 'title':title})
+    #return render(request, 'chat/index.html')
+
+def pathFind(request, pk, path_num, sx, sy, ex, ey):
+    #user_id = DB.user_id
+    DB = allData.objects.get(pk=pk)
+
+    msg = DB.detail_message
+    title = DB.title
+
+    msg = mark_safe(msg)
+    return render_to_response('web/pathFind.html', {'message': msg, 'title':title, 'pathNum':path_num, 'geoSX':sx, 'geoSY':sy, "geoEX":ex, "geoEY":ey})
