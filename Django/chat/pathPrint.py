@@ -207,7 +207,7 @@ def bus_detail(busPath):
 		if i < (cnt-1):
 			bdText += " >> "
 
-	bdText += "<br class=br_line>"
+	bdText += "🚋   〰 <br class=br_line>"
 
 	return bdText
 
