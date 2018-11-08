@@ -37,7 +37,7 @@ def get_subway_station(json_Data):
     # print("searchStation : "+str(searchStation))
     res = ""
     ACCESS = "rxJqZMHh6oQDUSfc7Kh42uCXZuHEhmj7dY7VWber2ryr9L5t2CFRy3z834JMR7RygMzaVby7ZQ3sW%2ByCZZn0Ig%3D%3D"
-    my = "2Y3C1Vf5IqtpTOyTtlHh1zhP2SJSByC9xqsjCDo/4FQ"
+    my = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encMy = urllib.parse.quote_plus(my)
 
     #for s in searchStation:
@@ -587,7 +587,7 @@ def getStationInfo(myStationName):
     #print(str(type(myStationName)))
     myStationName = re.sub('\((.*?)\)','',myStationName)
     #print("myStationName : "+myStationName)
-    myKey = "2Y3C1Vf5IqtpTOyTtlHh1zhP2SJSByC9xqsjCDo/4FQ"
+    myKey = "n+1iCTjka3qgrhco9Xl3e05Depf0hpct6SJUYUEH38E"
     encKey = urllib.parse.quote_plus(myKey)
     encStationname = urllib.parse.quote_plus(myStationName)
     odUrl = "https://api.odsay.com/v1/api/searchStation?lang=0&stationName="+encStationname+"&stationClass=2&apiKey="+encKey
